@@ -19,6 +19,7 @@ function pr3001_B
         subplot(2,1,1)
         portraitPhase(lambda, i);
         w0max=vitesseInitMax(lambda, i, x0)
+        line([x0 x0], [-5 5])
         text(x0, w0max, '\leftarrow\omega_{0max}', 'FontSize', 16)
         
         subplot(2,1,2)
@@ -110,6 +111,9 @@ function z=vitesseAngulaire(lambda, mu, C, x)
     z=sqrt(2*(C - H_IntegPrem(lambda, mu, x)));
 end
 
+% Calcul de la valeur max de la vitesse initiale w0 pour laquelle la
+% trajectoire est périodique, sachant que l'on fixe la position initiale
+% x0, lambda et mu.
 function w0max=vitesseInitMax(lambda, mu, x0)
     H0=H_IntegPrem(lambda, mu, 0);
     Hpi=H_IntegPrem(lambda, mu, pi);
@@ -121,6 +125,4 @@ function w0max=vitesseInitMax(lambda, mu, x0)
     
     w0max=vitesseAngulaire(lambda, mu, C, x0)
 end
-
-
 %------------------------------------------------------------------------------
