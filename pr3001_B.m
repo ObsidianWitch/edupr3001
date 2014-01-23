@@ -6,7 +6,7 @@ function pr3001_B
     lambda=2;
     lambda_vector=[1 2 3 4 5];
     mu=[0.5 1.5 2 2.5 4];
-    %x0=pi/2;
+    x0=pi/2;
     %w0=0;
     
     % Nombre de points d'équilibre
@@ -18,9 +18,12 @@ function pr3001_B
         
         subplot(2,1,1)
         portraitPhase(lambda, i);
+        w0max=vitesseInitMax(lambda, i, x0)
+        text(x0, w0max, '\leftarrow\omega_{0max}', 'FontSize', 16)
         
         subplot(2,1,2)
         epPlot(lambda, i);
+        
         %plot_h(lambda, i); % permet de déterminer les valeurs max et min de h(x)
     end
     
@@ -38,6 +41,9 @@ function displayNbEqui(lambda, mu)
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
+% TODO? autre méthode: résoudre h(theta) = 0 et compter le nombre de
+% solutions
+%
 % Calcul le nombre de points d'équilibres pour chaque lambda et mu
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
 % mu).
@@ -100,29 +106,21 @@ end
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-function vitesseInitMax(lambda, mu, x0)
-    figure;
-    Et_sep = 1:length(mu);
-    Ep_x0 = 1:length(mu);
-    Vm = 1:length(mu);
-    
-    for i=Et_sep
-        % point appartenant à la séparatrice : Ec=0, vitesse nulle
-        % tweak, à revoir
-        if mu(i) <= 2 
-            Et_sep(i) = Ep(lambda, mu(i), 0);
-        else
-            Et_sep(i) = Ep(lambda, mu(i), pi);
-        end
-        
-        % Ep pour x0
-        Ep_x0(i) = Ep(lambda, mu(i), x0);
-        
-        % Ec = Et - Ep
-        Vm(i) = sqrt(2*(Et_sep(i) - Ep_x0(i)));
+function z=vitesseAngulaire(lambda, mu, C, x)
+    z=sqrt(2*(C - H_IntegPrem(lambda, mu, x)));
+end
+
+function w0max=vitesseInitMax(lambda, mu, x0)
+    H0=H_IntegPrem(lambda, mu, 0);
+    Hpi=H_IntegPrem(lambda, mu, pi);
+    if H0 > Hpi
+        C=H0;
+    else
+        C=Hpi;
     end
     
-    plot(mu, Vm);
-    title('valeur max de la vitesse init pour laquelle la trajectoire est périodique');
+    w0max=vitesseAngulaire(lambda, mu, C, x0)
 end
+
+
 %------------------------------------------------------------------------------
