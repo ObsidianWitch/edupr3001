@@ -99,19 +99,6 @@ function z=H_IntegPrem(lambda, mu, x)
 end
 %------------------------------------------------------------------------------
 
-% OLD -------------------------------------------------------------------------
-% function z=Ep(lambda, mu, x)
-%     z=-(1-cos(x)) + 0.5*(lambda/mu)*(sqrt(mu^2 + 1 -2*mu*cos(x)) - 1).^2;
-% end
-% 
-% function Ep_plot(lambda, mu)
-%     x=(-5:0.01:5);
-%     z=Ep(lambda, mu, x);
-%     plot(x,z);
-%     title(['EP lambda=', num2str(lambda), ' mu=', num2str(mu)]);
-% end
-%------------------------------------------------------------------------------
-
 %------------------------------------------------------------------------------
 function vitesseInitMax(lambda, mu, x0)
     figure;
