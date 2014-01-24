@@ -18,17 +18,14 @@ function pr3001_B
         
         subplot(2,1,1)
         portraitPhase(lambda, i);
-        w0max=vitesseInitMax(lambda, i, x0)
+        w0max=vitesseInitMax(lambda, i, x0);
         line([x0 x0], [-5 5])
-        text(x0, w0max, '\leftarrow\omega_{0max}', 'FontSize', 16)
+        str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
+        text(x0, w0max, str, 'FontSize', 14) % TODO position de la flèche peu précise
         
         subplot(2,1,2)
         epPlot(lambda, i);
-        
-        %plot_h(lambda, i); % permet de déterminer les valeurs max et min de h(x)
     end
-    
-    %vitesseInitMax(lambda, mu, x0);
 end
 
 %------------------------------------------------------------------------------
@@ -64,23 +61,9 @@ end
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-% function z=h(x, lambda, mu)
-%     z=sin(x).*(-1 + lambda -(lambda./sqrt(mu^2 + 1 - 2*mu*cos(x))));
-% end
-% 
-% function plot_h(lambda, mu)
-%     figure
-%     x=-10:0.1:10;
-%     y=h(x, lambda, mu);
-%     plot(x, y);Z
-%     title(['h(x) mu=' num2str(mu)]);
-% end
-%------------------------------------------------------------------------------
-
-%------------------------------------------------------------------------------
 % Portrait de phase
 function portraitPhase(lambda, mu)
-    [X,Y]=meshgrid(-5:0.01:5, -5:0.01:5);
+    [X,Y]=meshgrid(-5:0.01:5, -3:0.01:3);
     Z=integPrem(lambda, mu, X, Y);
     contour(X, Y, Z, -5:0.1:5)
     title(['Portrait de phase lambda=', num2str(lambda), ' mu=', num2str(mu)]);
@@ -123,6 +106,6 @@ function w0max=vitesseInitMax(lambda, mu, x0)
         C=Hpi;
     end
     
-    w0max=vitesseAngulaire(lambda, mu, C, x0)
+    w0max=vitesseAngulaire(lambda, mu, C, x0);
 end
 %------------------------------------------------------------------------------
