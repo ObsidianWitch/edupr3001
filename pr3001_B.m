@@ -6,26 +6,33 @@ function pr3001_B
     lambda=2;
     lambda_vector=[1 2 3 4 5];
     mu=[0.5 1.5 2 2.5 4];
+    x_min=[pi/2 pi/2 1.3181-(pi/2 - 1.3181)+0.02 -pi/2 -pi/2];
+    x_max=[3*pi/2  (1.8235-pi/2)+1.8235 pi/2-0.02 pi/2 pi/2];
     x0=pi/2;
-    %w0=0;
+    w0=0;
     
     % Nombre de points d'équilibre
     displayNbEqui(lambda_vector, mu);
     
-    % Portrait de phase & Ep(theta)
-    for i=mu
+    % Portrait de phase & Ep(theta) & période
+    T=zeros(1,length(mu));
+    for i=1:length(mu)
         figure
-        
+
         subplot(2,1,1)
-        portraitPhase(lambda, i);
-        w0max=vitesseInitMax(lambda, i, x0);
+        portraitPhase(lambda, mu(i));
+        w0max=vitesseInitMax(lambda, mu(i), x0);
         line([x0 x0], [-5 5])
         str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
-        text(x0, w0max, str, 'FontSize', 14) % TODO position de la flèche peu précise
-        
+        text(x0, w0max, str, 'FontSize', 14)
+
         subplot(2,1,2)
-        epPlot(lambda, i);
+        epPlot(lambda, mu(i));
+        
+        T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
     end
+    
+    T = real(T)
 end
 
 %------------------------------------------------------------------------------
@@ -107,5 +114,12 @@ function w0max=vitesseInitMax(lambda, mu, x0)
     end
     
     w0max=vitesseAngulaire(lambda, mu, C, x0);
+end
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+function y=periode(x, lambda, mu)
+    C= 0.5 * (lambda/mu) * (sqrt(mu^2 + 1) - 1)^2;
+    y=sqrt(2)./sqrt(C - H_IntegPrem(lambda, mu, x));
 end
 %------------------------------------------------------------------------------
