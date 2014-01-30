@@ -18,20 +18,22 @@ function pr3001_B
     T=zeros(1,length(mu));
     for i=1:length(mu)
         figure
-
+        
+        % portrait de phase
         subplot(2,1,1)
         portraitPhase(lambda, mu(i));
         w0max=vitesseInitMax(lambda, mu(i), x0);
         line([x0 x0], [-5 5])
         str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
         text(x0, w0max, str, 'FontSize', 14)
-
+        
+        % Ep
         subplot(2,1,2)
         epPlot(lambda, mu(i));
         
+        % période
         T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
     end
-    
     T = real(T)
 end
 
@@ -46,9 +48,6 @@ function displayNbEqui(lambda, mu)
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
-% TODO? autre méthode: résoudre h(theta) = 0 et compter le nombre de
-% solutions
-%
 % Calcul le nombre de points d'équilibres pour chaque lambda et mu
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
 % mu).
