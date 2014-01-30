@@ -31,10 +31,15 @@ function pr3001_B
         subplot(2,1,2)
         epPlot(lambda, mu(i));
         
-        % période
+        % période pour chaque mu
         T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
     end
-    T = real(T)
+    
+    % affichage de la période en fonction de mu
+    T = real(T);
+    figure
+    periodePlot(T, mu);
+    
 end
 
 %------------------------------------------------------------------------------
@@ -117,6 +122,17 @@ end
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
+% Affiche la courbe représentant la période T (vecteur) en fonction de mu (vecteur).
+function periodePlot(T, mu)
+    plot(mu,T);
+    title('T(mu)');
+    
+    for i=1:length(mu)
+        str=strcat('\leftarrow ', num2str(T(i)));
+        text(mu(i), T(i), str, 'FontSize', 14)
+    end
+end
+
 function y=periode(x, lambda, mu)
     C= 0.5 * (lambda/mu) * (sqrt(mu^2 + 1) - 1)^2;
     y=sqrt(2)./sqrt(C - H_IntegPrem(lambda, mu, x));

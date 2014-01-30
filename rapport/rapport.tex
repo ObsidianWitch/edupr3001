@@ -341,18 +341,18 @@ end
 % un tableau.
 function displayNbEqui(lambda, mu)
     Z = nbEqui(lambda, mu);
-    
+
     f = figure('name', 'Nombre de points d''équilibre(lambda, mu)', 'Position', [0 0 600 350]);
     t = uitable('Parent', f, 'Position', [50 700 500 150]);
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
 % Calcul le nombre de points d'équilibres pour chaque lambda et mu
-% (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
+% (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de
 % mu).
 function z=nbEqui(lambda, mu)
     z = zeros(length(lambda), length(mu));
-    
+
     for i=lambda
         for j=1:length(mu)
             if (mu(j) < (lambda(i)/(lambda(i)-1)) + 1) && (mu(j) > (lambda(i)/(lambda(i)-1)) - 1)
@@ -379,16 +379,16 @@ La fonction \emph{nbEqui} vérifie la condition $\displaystyle \mu \in \left] \f
 Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.
 % TODO LIRE DOC Thweatt1999.pdf : décrire allure mouvement oscillatoire (courbes fermés) vs mouvement révolutif (courbes ouvertes), séparatrice
 % TODO dire pourquoi mu=1 a été exclu (on ne peut pas avoir de ressort ponctuel)
-% TODO insérer figures rapport_figportraitphasemu2
 % TODO interprétation des portraits de phase (notamment le nombre de points d'équilibre)
-% TODO insérer code + explications
 
 \paragraph{Matlab}
+% TODO insérer code + explications
 \newpage
 
 \subsection{Vitesse initiale maximale pour une trajectoire périodique}
-Nous souhaitons obtenir la vitesse initiale maximale pour une trajectoire périodique sachant que nous avons fixé la position $x_0$ à $\frac{\pi}{2}$. La séparatrice est la limite entre les trajectoires décrivant un mouvement oscillatoire et les trajectoires décrivant un mouvement révolutif. Celle-ci relie les points d'équilibres instable. % TODO à compléter
+Nous souhaitons obtenir la vitesse initiale maximale pour une trajectoire périodique sachant que nous avons fixé la position $x_0$ à $\frac{\pi}{2}$. La séparatrice est la limite entre les trajectoires décrivant un mouvement oscillatoire et les trajectoires décrivant un mouvement révolutif. Celle-ci relie les points d'équilibres instable.
 Nous cherchons donc l'intersection entre la trajectoire séparatrice et $\frac{\pi}{2}$. La trajectoire séparatrice qui nous intéresse passe par un des 2 points d'équilibres suivants (voir les deux) : $0$ et $\pi$.
+%TODO à justifier
 \begin{flalign*}
 	C &= \frac{1}{2} \dot{\theta}^2 + H(\theta)&\\
 	\dot{\theta} &= \sqrt{2(C - H(\theta))}
@@ -487,6 +487,104 @@ end
 \newpage
 
 \subsection{Mouvement et période}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.50]{Figures/rapport_tmu.png}
+	\caption{$T(\mu)$}
+	\label{figure:tmu}
+\end{figure}
+On souhaite calculer la période de la trajectoire ayant pour conditions initiales $\theta_0 = \frac{\pi}{2}$ et $\omega_0 = 0$, et pour paramètres $\lambda = 2$ et $\mu$ prenant successivement les valeurs suivantes: 0.5, 1.5, 2, 2.5 et 4. La période correspond à 2 fois la durée du parcours allant du point $(\theta_{min}, 0)$ à $(\theta_{max}, 0)$ étant donné la symétrie du problème.
+
+% C = 1/2 thetapoint^2 + H(theta)
+% thetapoint = +- sqrt(2(C-H(theta)))
+
+\begin{flalign*}
+	C &= \frac{1}{2} \dot{\theta}^2 + H(\theta)&\\
+	\dot{\theta} = \frac{\mathd \theta}{\mathd t}&= \pm \sqrt{2(C - H(\theta))}&
+\end{flalign*}
+
+\begin{flalign*}
+	T &= 2(t(\theta_{min}) - t(\theta_{max}))&\\
+	  &= \int_{t(\theta_{min})}^{t(\theta_{max})}dt&\\
+	  &=\sqrt{2} \int_{\theta_{min}}^{\theta_{max}} \frac{\mathd \theta}{\sqrt{C - H(\theta)}}&
+\end{flalign*}
+
+\underline{On calcule C aux conditions initiales}:
+\begin{flalign*}
+	C &= \frac{1}{2} \omega_0^2 + H(\theta_0)&\\
+	  & = H(\theta_0)&\\
+	  & = \cos{\theta_0} + \frac{1}{2}\frac{\lambda}{\mu}\left(
+	  		\sqrt{\mu^2 + 1 -2\mu\cos{\theta_0}} - 1
+	      \right)^2&\\
+	  & =\frac{1}{2}\frac{\lambda}{\mu}\left(
+	  		\sqrt{\mu^2 + 1} - 1
+	      \right)^2&
+\end{flalign*}
+
+Avec $\lambda=2$:
+\begin{flalign*}
+	  C & =\frac{1}{\mu}\left(
+	  		\sqrt{\mu^2 + 1} - 1
+	      \right)^2&
+\end{flalign*}
+
+\underline{$H(\theta)$ pour $\lambda = 2$:}
+\begin{flalign*}
+	H(\theta) &= cos{\theta} + \frac{1}{\mu}\left(
+					\sqrt{\mu^2 +1 -2\mu\cos{\theta}} - 1
+	             \right)^2&
+\end{flalign*}
+
+\begin{leftbar}
+\textbf{Exemple :} $\mu = 4$\\
+On observe sur le portrait de phase (voir Annexe A) que la vitesse de la trajectoire s'annule aux points $\theta_{min} = -\frac{\pi}{2}$ et $\theta_{max} = \frac{\pi}{2}$.
+\begin{flalign*}
+	C &= \frac{1}{4}(\sqrt{17}-1)^2 \approx 2.4384&\\
+	H(\theta) &= cos{\theta} + \frac{1}{4}(\sqrt{17-8\cos{\theta}}-1)^2&\\
+	T &=\sqrt{2} \int_{\theta_{min}}^{\theta_{max}} \frac{\mathd \theta}{\sqrt{C - H(\theta)}} \approx 10.6855&
+\end{flalign*}
+\end{leftbar}
+
+% TODO interprétation
+
+\paragraph{Matlab}\mbox{}\\
+\begin{lstlisting}
+function pr3001_B
+    x_min=[pi/2 pi/2 1.3181-(pi/2 - 1.3181)+0.02 -pi/2 -pi/2];
+    x_max=[3*pi/2  (1.8235-pi/2)+1.8235 pi/2-0.02 pi/2 pi/2];
+    ...
+    T=zeros(1,length(mu));
+    for i=1:length(mu)
+    	...
+    	% période pour chaque mu (lambda fixé)
+    	T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
+    end
+
+    % affichage de la période en fonction de mu
+    T = real(T);
+    figure
+    periodePlot(T, mu);
+end
+
+% Affiche la courbe représentant la période T (vecteur) en fonction de mu (vecteur).
+function periodePlot(T, mu)
+    plot(mu,T);
+    title('T(mu)');
+
+    for i=1:length(mu)
+        str=strcat('\leftarrow ', num2str(T(i)));
+        text(mu(i), T(i), str, 'FontSize', 14)
+    end
+end
+
+function y=periode(x, lambda, mu)
+    C= 0.5 * (lambda/mu) * (sqrt(mu^2 + 1) - 1)^2;
+    y=sqrt(2)./sqrt(C - H_IntegPrem(lambda, mu, x));
+end
+\end{lstlisting}
+Pour $\lambda=2$ et pour chaque $\mu$, on stocke le $\theta_{min}$ et le $\theta_{max}$ par lesquels la trajectoire de conditions initiales $(\theta_0=\frac{\pi}{2}, \omega_0=0)$ passe. Ces valeurs ont été relevées à l'aide des portraits de phase (voir Annexe A).\\
+
+On calcule ensuite T pour chaque $\mu$ en intégrant la fonction \emph{periode} de $\theta_{min}$ jusqu'à $\theta_{max}$ à l'aide de $quad$. La courbe représentant $T(\mu)$ est finalement affichée grâce à la fonction \emph{periodePlot} (cf. figure \ref{figure:tmu}).
 \newpage
 
 \appendix
@@ -515,5 +613,10 @@ end
 	\centering
 	\includegraphics[scale=0.65]{Figures/rapport_pp40.png}
 \end{figure}
+
+\newpage
+
+\section{Annexe: Code complet}
+% TODO listing + fix position de cette section
 
 \end{document}
