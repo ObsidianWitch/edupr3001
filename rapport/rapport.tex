@@ -81,6 +81,8 @@
 \title{PR-3001M\\
 \small{Systèmes dynamiques}}
 \date{\today}
+% TODO lien vers archive contenant rapport + script
+% TODO numéro de groupe 26
 
 \begin{document}
 \maketitle
@@ -268,7 +270,7 @@ Soit $\displaystyle h(\theta) = \sin\theta\left(-1 +\lambda -\frac{\lambda}{\sqr
 	\sin\theta^* &= 0&\\
 	\theta^* &= k\pi, \text{ avec } k\in\mathbb{N} &
 \end{flalign*}
-Le système possède donc au moins deux points d'équilibres (qui se répètent), $\theta^* = 0$ et $\theta^* = \pi$.
+Le système possède donc au moins deux points d'équilibre (qui se répètent), $\theta^* = 0$ et $\theta^* = \pi$.
 
 \paragraph{Second cas}
 \begin{flalign*}
@@ -337,7 +339,7 @@ function pr3001_B
 	...
 end
 
-% Affiche le nombre de points d'équilibres en fonction de lambda et mu dans
+% Affiche le nombre de points d'équilibre en fonction de lambda et mu dans
 % un tableau.
 function displayNbEqui(lambda, mu)
     Z = nbEqui(lambda, mu);
@@ -347,7 +349,7 @@ function displayNbEqui(lambda, mu)
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
-% Calcul le nombre de points d'équilibres pour chaque lambda et mu
+% Calcul le nombre de points d'équilibre pour chaque lambda et mu
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de
 % mu).
 function z=nbEqui(lambda, mu)
@@ -364,30 +366,79 @@ function z=nbEqui(lambda, mu)
     end
 end
 \end{lstlisting}
-La fonction \emph{nbEqui} vérifie la condition $\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[$ et remplit un tableau à 2 dimensions en fonction de $\lambda$ et $\mu$. A chaque couple de $\lambda$ et $\mu$ est associé un nombre de points d'équilibre. La fonction \emph{displayNbEqui} affiche ensuite le tableau dans l'ui.
-
-% TODO insérer code + explications
+La fonction \emph{nbEqui} vérifie la condition $\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[$ et remplit un tableau à 2 dimensions en fonction de $\lambda$ et $\mu$. A chaque couple de $\lambda$ et $\mu$ est associé un nombre de points d'équilibre. La fonction \emph{displayNbEqui} affiche ensuite le tableau dans l'UI.
 
 \newpage
 \subsection{Portrait de phase}
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.65]{Figures/rapport_figportraitphasemu2.png}
+	\includegraphics[scale=0.55]{Figures/rapport_figportraitphasemu2.png}
 	\caption{Portrait de phase (haut) et énergie potentielle (bas) pour $\lambda=2$ et $\mu=2$}
+	\label{fig:pp_ep_mu2}
 \end{figure}
 
-Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.
-% TODO LIRE DOC Thweatt1999.pdf : décrire allure mouvement oscillatoire (courbes fermés) vs mouvement révolutif (courbes ouvertes), séparatrice
-% TODO dire pourquoi mu=1 a été exclu (on ne peut pas avoir de ressort ponctuel)
-% TODO interprétation des portraits de phase (notamment le nombre de points d'équilibre)
+Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.\\
 
-\paragraph{Matlab}
-% TODO insérer code + explications
+Les trajectoires fermées représentent des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire 1) et les trajectoires ouvertes correspondent à des mouvements révolutifs (figure \ref{fig:pp_ep_mu2}, trajectoire 2). Une trajectoire séparatrice délimite les mouvements révolutifs des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire 3).\\
+% TODO (lire doc Thweatt1999.pdf) mu=2 -> mu = 2.5 (courbe en 8): changement de dynamique : bifurcation
+
+On fixe $\lambda = 2$ et on trace le portrait de phase pour différents $\mu$ : 0.5, 1.5, 2, 2.5 et 4. Les portraits de phases sont visibles en annexe (Annexe A).
+\begin{leftbar}
+\textbf{N.B.} Le cas $\mu=1$ n'est pas traité, $\mu = \frac{a}{r}$ donc $a = r$, et pour $\theta = 0$, le ressort devient ponctuel ce qui n'est physiquement pas possible.
+\end{leftbar}
+
+Le portrait de phase ci-dessus (figure \ref{fig:pp_ep_mu2}) correspond au cas $\lambda=2$ et $\mu=2$. On peut observer 4 points d'équilibre alternativement stables (minimum de l'EP, entourés par des trajectoires fermées) et instables (maximum local de l'EP, points de selle) aux positions suivantes : 0 (instable), $\cos^{-1}{(1/4)}$ (stable), pi (instable) et $-\cos^{-1}{(1/4)}$ (stable).
+\begin{leftbar}
+\textbf{N.B.} Obtention des positions des points d'équilibre autres que $\theta^* = 0$ et $\theta^* = \pi$ à l'aide de Matlab:
+\begin{flalign*}
+	&-1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 +1 -2\mu\cos{\theta}}} = 0&
+\end{flalign*}
+Pour $\lambda=2$ et $\mu = 2$
+\begin{lstlisting}[numbers=none]
+>> x = solve('-1 + 2 - (2/sqrt(2^2 +1 -2*2*cos(x)))', 'x')
+ans =
+  acos(1/4)
+ -acos(1/4)
+\end{lstlisting}
+\end{leftbar}
+% TODO compléter interprétation?
+
+\paragraph{Matlab} \mbox{}\\
+\begin{lstlisting}
+function pr3001_B
+    % Parametres
+    lambda=2;
+    mu=[0.5 1.5 2 2.5 4];
+    ...
+    for i=1:length(mu)
+        figure
+
+        % portrait de phase
+        subplot(2,1,1)
+        portraitPhase(lambda, mu(i));
+		...
+    end
+    ...
+end
+
+function portraitPhase(lambda, mu)
+    [X,Y]=meshgrid(-5:0.01:5, -3:0.01:3);
+    Z=integPrem(lambda, mu, X, Y);
+    contour(X, Y, Z, -5:0.1:5)
+    title(['Portrait de phase lambda=', num2str(lambda), ' mu=', num2str(mu)]);
+end
+
+% Intégrale première
+function z=integPrem(lambda, mu, x, y)
+    z=0.5*y.^2 + H_IntegPrem(lambda, mu, x);
+end
+\end{lstlisting}
+% TODO explications (meshgrid + contour)
 \newpage
 
 \subsection{Vitesse initiale maximale pour une trajectoire périodique}
-Nous souhaitons obtenir la vitesse initiale maximale pour une trajectoire périodique sachant que nous avons fixé la position $x_0$ à $\frac{\pi}{2}$. La séparatrice est la limite entre les trajectoires décrivant un mouvement oscillatoire et les trajectoires décrivant un mouvement révolutif. Celle-ci relie les points d'équilibres instable.
-Nous cherchons donc l'intersection entre la trajectoire séparatrice et $\frac{\pi}{2}$. La trajectoire séparatrice qui nous intéresse passe par un des 2 points d'équilibres suivants (voir les deux) : $0$ et $\pi$.
+Nous souhaitons obtenir la vitesse initiale maximale pour une trajectoire périodique sachant que nous avons fixé la position $x_0$ à $\frac{\pi}{2}$. La séparatrice est la limite entre les trajectoires décrivant un mouvement oscillatoire et les trajectoires décrivant un mouvement révolutif. Celle-ci relie les points d'équilibre instable.
+Nous cherchons donc l'intersection entre la trajectoire séparatrice et $\frac{\pi}{2}$. La trajectoire séparatrice qui nous intéresse passe par un des 2 points d'équilibre suivants (voir les deux) : $0$ et $\pi$.
 %TODO à justifier
 \begin{flalign*}
 	C &= \frac{1}{2} \dot{\theta}^2 + H(\theta)&\\
@@ -603,20 +654,20 @@ On calcule ensuite T pour chaque $\mu$ en intégrant la fonction \emph{periode} 
 	\centering
 	\includegraphics[scale=0.65]{Figures/rapport_pp20.png}
 \end{figure}
-
+\newpage % fix
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.66]{Figures/rapport_pp25.png}
 \end{figure}
-
+\newpage
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.65]{Figures/rapport_pp40.png}
 \end{figure}
 
-\newpage
 
+\newpage
 \section{Annexe: Code complet}
-% TODO listing + fix position de cette section
+\lstinputlisting{../pr3001_B.m}
 
 \end{document}

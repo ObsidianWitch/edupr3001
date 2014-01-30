@@ -43,7 +43,7 @@ function pr3001_B
 end
 
 %------------------------------------------------------------------------------
-% Affiche le nombre de points d'équilibres en fonction de lambda et mu dans
+% Affiche le nombre de points d'équilibre en fonction de lambda et mu dans
 % un tableau.
 function displayNbEqui(lambda, mu)
     Z = nbEqui(lambda, mu);
@@ -53,7 +53,7 @@ function displayNbEqui(lambda, mu)
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
-% Calcul le nombre de points d'équilibres pour chaque lambda et mu
+% Calcul le nombre de points d'équilibre pour chaque lambda et mu
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
 % mu).
 function z=nbEqui(lambda, mu)
