@@ -44,7 +44,7 @@ function displayNbEqui(lambda, mu)
     Z = nbEqui(lambda, mu);
     
     f = figure('name', 'Nombre de points d''équilibre(lambda, mu)', 'Position', [0 0 600 350]);
-    t = uitable('Parent', f, 'Position', [100 100  700 200]);
+    t = uitable('Parent', f, 'Position', [50 700 500 150]);
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 

@@ -1,9 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage{multicol}
-%\usepackage[small,compact]{titlesec}
 \setlength{\columnseprule}{1pt} % separation line between columns
 \setlength{\parindent}{0pt} % paragraph indentation
-\raggedbottom
 
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 \usepackage[T1]{fontenc}
@@ -97,9 +95,7 @@
 	\includegraphics[scale=0.6]{Figures/sch1.png}
 \end{figure}
 
-% TODO expliquer démarche: nous avons utilisé deux méthodes pour trouver l'équation différentielle du système:
-% - conservation de l'Em
-% - somme des moments des forces (à faire si suffisamment de temps)
+% TODO expliquer démarche: nous avons utilisé la conservation de l'em pour trouver l'equation diff du système.
 
 \subsection{Conservation de l'énergie mécanique}
 L'énergie mécanique est la somme de l'énergie cinétique et de l'énergie potentielle. Celle-ci reste constante au cours du temps en l'absence de frottements. % TODO à compléter: parler de forces non-conservatives?
@@ -127,18 +123,16 @@ avec $Em$ l'énergie mécanique, $Ep$ l'énergie potentielle, $Epp$ l'énergie p
 	\includegraphics[scale=0.6]{Figures/sch2.png}
 \end{figure}
 
-% TODO insérer figure
-% TODO mettre en forme (oui, encore)
-
 \begin{align*}
    \left.\begin{array}{r@{\mskip\thickmuskip}l}
+   \displaystyle
    \cos(\theta) = \frac{h}{r}\\
 	h = r \cos(\theta)
   \end{array}
   \quad \right| \quad
   \begin{array}{r@{\mskip\thickmuskip}l}
     	Epp = mgh\\
-	   = mgrcos(\theta)
+	    = mgrcos(\theta)
   \end{array}
 \end{align*}
 
@@ -255,12 +249,11 @@ $\begin{cases}
 	\mu > 0
 \end{cases}$
 
-\subsection{Principe fondamental de la dynamique en rotation}
-% TODO si suffisamment de temps, et pour vérifier les résultats trouvés avec la conservation de l'énergie mécanique
-
 \newpage
 \section{Cas sans frottement}
 \subsection{Points d'équilibre}
+% TODO insérer brève définition
+
 Soit $\displaystyle h(\theta) = \sin\theta\left(-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta}} \right)$, si $h(\theta^*) = 0$, le point $\theta^*$ est un point d'équilibre du système.
 
 \begin{flalign*}
@@ -275,7 +268,7 @@ Soit $\displaystyle h(\theta) = \sin\theta\left(-1 +\lambda -\frac{\lambda}{\sqr
 	\sin\theta^* &= 0&\\
 	\theta^* &= k\pi, \text{ avec } k\in\mathbb{N} &
 \end{flalign*}
-Le système possède donc au moins deux points d'équilibres (qui se répètent), $\theta^* = 0$ et $\theta^* = \pi$. % TODO reformuler?
+Le système possède donc au moins deux points d'équilibres (qui se répètent), $\theta^* = 0$ et $\theta^* = \pi$.
 
 \paragraph{Second cas}
 \begin{flalign*}
@@ -325,20 +318,72 @@ $\mu > 0$ et $\lambda > 0$, donc $\boxed{\displaystyle \mu \in \left] \frac{\lam
 Application numérique pour $\lambda = 2$ : $\mu \in ]1;3[$.
 
 \paragraph{Conclusion} \mbox{}\\
-Le système possède au moins deux points d'équilibres: $\theta^* = 0$ et $\theta^* = \pi$, et au plus 4 points d'équilibres si $\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[$.
+Le système possède au moins deux points d'équilibre: $\theta^* = 0$ et $\theta^* = \pi$, et au plus 4 points d'équilibre si $\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[$. Ces points d'équilibre peuvent être stables ou instables, et il y a alternance entre stabilité et instabilité.
 
-\paragraph{Matlab}
-% TODO insérer figures
-% TODO insérer code + explications
 \newpage
+\paragraph{Matlab} \mbox{}\\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{Figures/rapport_nbequi.png}
+	\caption{Nombre de points d'équilibre en fonction de $\lambda$ (colonnes) et $\mu$ (lignes)}
+\end{figure}
 
+\begin{lstlisting}
+function pr3001_B
+	lambda_vector=[1 2 3 4 5];
+	mu=[0.5 1.5 2 2.5 4];
+	...
+	displayNbEqui(lambda_vector, mu);
+	...
+end
+
+% Affiche le nombre de points d'équilibres en fonction de lambda et mu dans
+% un tableau.
+function displayNbEqui(lambda, mu)
+    Z = nbEqui(lambda, mu);
+    
+    f = figure('name', 'Nombre de points d''équilibre(lambda, mu)', 'Position', [0 0 600 350]);
+    t = uitable('Parent', f, 'Position', [50 700 500 150]);
+    set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
+end
+
+% Calcul le nombre de points d'équilibres pour chaque lambda et mu
+% (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
+% mu).
+function z=nbEqui(lambda, mu)
+    z = zeros(length(lambda), length(mu));
+    
+    for i=lambda
+        for j=1:length(mu)
+            if (mu(j) < (lambda(i)/(lambda(i)-1)) + 1) && (mu(j) > (lambda(i)/(lambda(i)-1)) - 1)
+                z(i,j) = 4;
+            else
+                z(i,j) = 2;
+            end
+        end
+    end
+end
+\end{lstlisting}
+La fonction \emph{nbEqui} vérifie la condition $\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[$ et remplit un tableau à 2 dimensions en fonction de $\lambda$ et $\mu$. A chaque couple de $\lambda$ et $\mu$ est associé un nombre de points d'équilibre. La fonction \emph{displayNbEqui} affiche ensuite le tableau dans l'ui.
+
+% TODO insérer code + explications
+
+\newpage
 \subsection{Portrait de phase}
-Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase, ici $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{Figures/rapport_figportraitphasemu2.png}
+	\caption{Portrait de phase (haut) et énergie potentielle (bas) pour $\lambda=2$ et $\mu=2$}
+\end{figure}
+
+Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.
 % TODO LIRE DOC Thweatt1999.pdf : décrire allure mouvement oscillatoire (courbes fermés) vs mouvement révolutif (courbes ouvertes), séparatrice
 % TODO dire pourquoi mu=1 a été exclu (on ne peut pas avoir de ressort ponctuel)
-% TODO insérer figures rapport_figportraitphasemu2 et rapport_figportraitphasemu4
+% TODO insérer figures rapport_figportraitphasemu2
 % TODO interprétation des portraits de phase (notamment le nombre de points d'équilibre)
 % TODO insérer code + explications
+
+\paragraph{Matlab}
 \newpage
 
 \subsection{Vitesse initiale maximale pour une trajectoire périodique}
@@ -392,7 +437,7 @@ On s'intéresse au final à la trajectoire qui passe par le point d'équilibre (
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.65]{Figures/rapport_figomega0.png}
-	% TODO caption
+	\caption{$\omega_{0max}$ sur le portrait de phase pour $\lambda = 2$ et $\mu = 4$}
 \end{figure}
 
 \paragraph{Matlab}\mbox{}\\
@@ -442,6 +487,33 @@ end
 \newpage
 
 \subsection{Mouvement et période}
+\newpage
 
+\appendix
+\section{Annexe: portraits de phase}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.64]{Figures/rapport_pp05.png}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{Figures/rapport_pp15.png}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{Figures/rapport_pp20.png}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.66]{Figures/rapport_pp25.png}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.65]{Figures/rapport_pp40.png}
+\end{figure}
 
 \end{document}
