@@ -595,7 +595,6 @@ On observe sur le portrait de phase (voir Annexe A) que la vitesse de la traject
 	T &=\sqrt{2} \int_{\theta_{min}}^{\theta_{max}} \frac{\mathd \theta}{\sqrt{C - H(\theta)}} \approx 10.6855&
 \end{flalign*}
 \end{leftbar}
-
 % TODO interprétation
 
 \paragraph{Matlab}\mbox{}\\
@@ -636,6 +635,129 @@ end
 Pour $\lambda=2$ et pour chaque $\mu$, on stocke le $\theta_{min}$ et le $\theta_{max}$ par lesquels la trajectoire de conditions initiales $(\theta_0=\frac{\pi}{2}, \omega_0=0)$ passe. Ces valeurs ont été relevées à l'aide des portraits de phase (voir Annexe A).\\
 
 On calcule ensuite T pour chaque $\mu$ en intégrant la fonction \emph{periode} de $\theta_{min}$ jusqu'à $\theta_{max}$ à l'aide de $quad$. La courbe représentant $T(\mu)$ est finalement affichée grâce à la fonction \emph{periodePlot} (cf. figure \ref{figure:tmu}).
+\newpage
+
+\section{Cas avec frottement}
+\subsection{Diagramme de bifurcation}
+% TODO blabla
+\begin{flalign*}
+	&\ddot{\theta} + \alpha\dot{\theta} + h(2,\mu;\theta) = 0&\\
+	&\ddot{\theta} + \alpha\dot{\theta} + sin{\theta} \left( -1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 + 1 -2\mu\cos{\theta}}} \right) = 0&
+\end{flalign*}
+
+\underline{Système différentiel autonome de dimension 2}:
+\begin{flalign*}
+	&\begin{cases}
+		\dot{x_1}(t) = f_1(x_1(t), x_2(t))\\
+		\dot{x_2}(t) = f_2(x_1(t), x_2(t))
+	\end{cases}&
+\end{flalign*}
+$F = (f_1(t), f_2(t))$\\
+
+On pose :
+\begin{flalign*}
+	&\begin{cases}
+		x_1 = \theta\\
+		x_2 = \dot{\theta}
+	\end{cases}&
+\end{flalign*}
+
+D'où (avec $\lambda=2$) :
+\begin{flalign*}
+	&\begin{cases}
+		\dot{x_1} = \dot{\theta} = x_2\\
+		\dot{x_2} = \ddot{\theta} = -\alpha x_2 - \sin{x_1} \left( 1 - \frac{2}{\sqrt{\mu^2 + 1 -2\mu\cos{x_1}}} \right)
+	\end{cases}&
+\end{flalign*}
+
+\underline{Points d'équilibre}:\\
+Les points d'équilibres dans le cas avec frottement peuvent être étudiés à partir de l'équation différentielle (ou à partir du système autonome de dimension 2) :
+\begin{flalign*}
+	&\ddot{\theta} + \alpha\dot{\theta} + sin{\theta} \left( -1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 + 1 -2\mu\cos{\theta}}} \right) = 0&
+\end{flalign*}
+
+On fixe $\ddot{\theta} = 0$ et $\dot{\theta} = 0$ dans l'équation différentielle, les valeurs des points d'équilibre sont obtenues en résolvant l'équation :
+\begin{flalign*}
+	&sin{\theta} \left( -1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 + 1 -2\mu\cos{\theta}}} \right) = 0&
+\end{flalign*}
+Cette équation est la même que celle obtenue dans le cas sans frottement, les points d'équilibres sont donc indépendants du frottement.
+On retrouve donc les points d'équilibre précédents :\\
+$\theta^*=0$ et $\theta^* = \pi \quad$ ($\theta^* = k\pi, \quad k \in \mathbb{N}$)\\
+\begin{flalign*}
+\theta^* &= \pm \cos^{-1}{\left( \frac{\left(\frac{\lambda}{\lambda-1}\right)^2 -\mu^2 -1}{-2\mu} \right)}&\\
+         &= \pm \cos^{-1}{\left( \frac{\mu^2 - 3}{2\mu} \right)}, \quad \lambda=2&
+\end{flalign*}
+
+Ces solutions peuvent être représentées graphiquement de la manière suivante, avec en bleu les points d'équilibre stables et en rouge les points d'équilibre instables :
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.59]{Figures/rapport_bifur1.png}
+	\caption{Représentation des points d''équilibre en fonction de $\mu$ ($\lambda=2$)}
+\end{figure}
+\newpage
+
+\underline{Système non-linéaire}:\\
+Nous sommes dans le cas d'un système non-linéaire, nous cherchons donc à étudier son comportement au voisinage des points d'équilibre.\\
+
+Soit $x^* = (x_1^*,x_2^*)$, 1 point d'équilibre du système, on souhaite calculer la matrice jacobienne de $f_i $ au voisinage de $x^*$.
+\begin{flalign*}
+	\frac{\partial f_1}{\partial x_1} &= 0&\\
+	\frac{\partial f_1}{\partial x_2} &= 1&\\
+	\frac{\partial f_2}{\partial x_1} &= -\frac{\partial}{\partial x_1} \left( \sin{x_1}\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu\cos{x_1}}} \right) \right)&\\
+	&= -\cos{x_1}\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu\cos{x_1}}} \right) -2\mu\frac{\sin{x_1}^2}{(\mu^2 +1 -2\mu\cos{x_1})^{3/2}}&
+	\frac{\partial f_2}{\partial x_2} &= -\alpha&\\
+	A(x^*) &= \left[
+		\begin{matrix}
+		  0 & 1 \\
+		  \frac{\partial f_2}{\partial x_1} & -\alpha
+		\end{matrix}
+ 	\right]&
+\end{flalign*}
+
+\underline{On fixe le point d'équilibre à $x^* = (0,0)$}:\\
+\begin{flalign*}
+	&\begin{cases}
+		tr(A) = -\alpha\\
+		det(A) = -\frac{\partial f_2}{\partial x_2} = 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu}}\\
+		\delta(A) = tr(A)^2 + 4*det(A) = \alpha^2 - 4\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu}} \right)
+	\end{cases}&
+\end{flalign*}
+
+\newpage
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.59]{Figures/rapport_bifur2.png}
+	\caption{Diagramme de bifurcation}
+\end{figure}
+
+% TODO interpréter diagramme de bifurcation
+
+\paragraph{Matlab}\mbox{}\\
+\begin{lstlisting}
+function plotBifurcation()
+    a=-5:0.05:5;
+    b=0:0.05:5;
+    [X,Y]=meshgrid(a,b);
+    X=X(:);
+    Y=Y(:);
+    
+    P=1-(2./sqrt(Y.^2 +1 -2*Y));
+    S=-X;
+    D=X.^2-4*P;    
+    
+    hold on
+    plot(X(D<0 & S>0),Y(D<0 & S>0),'.c')
+    plot(X(D<0 & S<0),Y(D<0 & S<0),'.m')
+    plot(X(D>0 & P>0 & S>0),Y(D>0 & P>0 & S>0),'.b')
+    plot(X(D>0 & P>0 & S<0),Y(D>0 & P>0 & S<0),'.g')
+    plot(X(D>0 & P<0 ),Y(D>0 & P<0 ),'.r')
+    hold off
+    
+    title('Diagramme de bifurcation')
+    xlabel('alpha')
+    ylabel('mu')
+end
+\end{lstlisting}
 \newpage
 
 \appendix

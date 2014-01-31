@@ -11,8 +11,10 @@ function pr3001_B
     x0=pi/2;
     w0=0;
     
-    % Nombre de points d'équilibre
+    % Nombre de points d'équilibre & représentation des points d'équilibre
     displayNbEqui(lambda_vector, mu);
+    figure
+    plotEqui(lambda);
     
     % Portrait de phase & Ep(theta) & période
     T=zeros(1,length(mu));
@@ -40,6 +42,10 @@ function pr3001_B
     figure
     periodePlot(T, mu);
     
+    % diagramme de bifurcation
+    figure
+    plotBifurcation()
+    
 end
 
 %------------------------------------------------------------------------------
@@ -49,7 +55,7 @@ function displayNbEqui(lambda, mu)
     Z = nbEqui(lambda, mu);
     
     f = figure('name', 'Nombre de points d''équilibre(lambda, mu)', 'Position', [0 0 600 350]);
-    t = uitable('Parent', f, 'Position', [50 700 500 150]);
+    t = uitable('Parent', f, 'Position', [50 20 500 150]);
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
@@ -136,5 +142,53 @@ end
 function y=periode(x, lambda, mu)
     C= 0.5 * (lambda/mu) * (sqrt(mu^2 + 1) - 1)^2;
     y=sqrt(2)./sqrt(C - H_IntegPrem(lambda, mu, x));
+end
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+function plotEqui(lambda)
+    x=(0:0.01:5);
+    z= real(equiArccos(lambda, x));
+    
+    hold on
+    plot(x, pi,'r');
+    plot(x, 0,'r');
+    plot(x, -pi,'r');
+    plot(x,z,'b');
+    plot(x,-z,'b');
+    hold off
+    title(['Représentation des points d''équilibre en fonction de mu (lambda=', num2str(lambda),')'])
+    xlabel('mu')
+    ylabel('position')
+end
+
+function y=equiArccos(lambda, mu)
+    y = acos(((lambda/(lambda - 1))^2 - mu.^2 -1)./(-2*mu));
+end
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+function plotBifurcation()
+    a=-5:0.05:5;
+    b=0:0.05:5;
+    [X,Y]=meshgrid(a,b);
+    X=X(:);
+    Y=Y(:);
+    
+    P=1-(2./sqrt(Y.^2 +1 -2*Y));
+    S=-X;
+    D=X.^2-4*P;    
+    
+    hold on
+    plot(X(D<0 & S>0),Y(D<0 & S>0),'.c')
+    plot(X(D<0 & S<0),Y(D<0 & S<0),'.m')
+    plot(X(D>0 & P>0 & S>0),Y(D>0 & P>0 & S>0),'.b')
+    plot(X(D>0 & P>0 & S<0),Y(D>0 & P>0 & S<0),'.g')
+    plot(X(D>0 & P<0 ),Y(D>0 & P<0 ),'.r')
+    hold off
+    
+    title('Diagramme de bifurcation')
+    xlabel('alpha')
+    ylabel('mu')
 end
 %------------------------------------------------------------------------------
