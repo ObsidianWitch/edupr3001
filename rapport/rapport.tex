@@ -100,7 +100,7 @@
 % TODO expliquer démarche: nous avons utilisé la conservation de l'em pour trouver l'equation diff du système.
 
 \subsection{Conservation de l'énergie mécanique}
-L'énergie mécanique est la somme de l'énergie cinétique et de l'énergie potentielle. Celle-ci reste constante au cours du temps en l'absence de frottements. % TODO à compléter: parler de forces non-conservatives?
+L'énergie mécanique est la somme de l'énergie cinétique et de l'énergie potentielle. Celle-ci reste constante au cours du temps en l'absence de frottements.
 
 \begin{flalign*}
 	Em &= Ep + Ec&\\
@@ -108,9 +108,7 @@ L'énergie mécanique est la somme de l'énergie cinétique et de l'énergie pot
 \end{flalign*}
 avec $Em$ l'énergie mécanique, $Ep$ l'énergie potentielle, $Epp$ l'énergie potentielle de pesanteur, $Epe$ l'énergie potentielle élastique du ressort et $Ec$ l'énergie cinétique.
 
-\paragraph{Énergie cinétique}
-% TODO insérer brève définition
-
+\paragraph{Énergie cinétique} \mbox{}\\
 \begin{flalign*}
 	Ec &= \frac{1}{2} m v^2 \text{, avec } v = r \dot{\theta}&\\
 	   &= \frac{1}{2} m r^2 \dot{\theta}^2&
@@ -118,8 +116,6 @@ avec $Em$ l'énergie mécanique, $Ep$ l'énergie potentielle, $Epp$ l'énergie p
 \newpage
 
 \paragraph{Énergie potentielle de pesanteur}\mbox{}\\
-% TODO insérer brève définition
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6]{Figures/sch2.png}
@@ -165,7 +161,7 @@ Epr &= \frac{1}{2} k (\sqrt{a^2 + r^2 - 2ar\cos\theta} - l_0)^2&
 \end{flalign*}
 \end{multicols}
 
-\paragraph{Intégrale première}
+\paragraph{Intégrale première de la conservation de l'énergie}
 \begin{flalign*}
 	Em &= Epp + Epe + Ec&\\
 	   &= \frac{1}{2}mr^2 \dot{\theta}^2
@@ -180,10 +176,10 @@ Epr &= \frac{1}{2} k (\sqrt{a^2 + r^2 - 2ar\cos\theta} - l_0)^2&
                    + \frac{1}{2} \frac{k}{mr^2}
                      \left(
                    		\sqrt{a^2 + r^2 - 2ar\cos\theta} - l_0
-                   	 \right)^2&
+                   	 \right)^2&\\
 \end{flalign*}
 
-\underline{$g=r=l_0$ et $\frac{k}{m}=\frac{\lambda}{\mu}$} :
+\underline{Par hypothèse, $g=r=l_0$ et $\frac{k}{m}=\frac{\lambda}{\mu}$} :
 \begin{flalign*}
 	\frac{Em}{mr^2} &= \frac{1}{2} \dot{\theta}^2
 	                   + \cos\theta
@@ -222,7 +218,7 @@ Pour trouver l'équation différentielle, il faut dériver l'intégrale premièr
 \begin{flalign*}
 	C &= \frac{1}{2}\dot{\theta}^2 + H(\theta)&\\
 	0 &= \frac{1}{2} \frac{\mathd}{\mathd t}\dot{\theta}^2 + \frac{\mathd}{\mathd t}H(\theta)&\\
-	&= \ddot{\theta}\dot{\theta} + \dot{\theta} \frac{\mathd}{\mathd \theta}H(\theta)&\\
+	&= \ddot{\theta}\dot{\theta} + \dot{\theta} \frac{\mathd}{\mathd \theta}H(\theta), \quad \dot{\theta} \neq 0&\\
 	&= \ddot{\theta} + \frac{\mathd}{\mathd \theta}H(\theta)&\\
 	&= \ddot{\theta} + \frac{\mathd}{\mathd \theta}\left( \cos(\theta) + \frac{1}{2} \frac{\lambda}{\mu} (\sqrt{\mu^2 + 1 - 2\mu\cos\theta} - 1)^2 \right)&\\
 	&= \ddot{\theta} -\sin\theta + \frac{1}{2}\frac{\lambda}{\mu}\frac{\mathd}{\mathd \theta}\left( (\sqrt{\mu^2 + 1 - 2\mu\cos\theta} - 1)^2 \right)&\\
@@ -353,11 +349,11 @@ end
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de
 % mu).
 function z=nbEqui(lambda, mu)
-    z = zeros(length(lambda), length(mu));
+    z = zeros(length(mu), length(lambda));
 
-    for i=lambda
-        for j=1:length(mu)
-            if (mu(j) < (lambda(i)/(lambda(i)-1)) + 1) && (mu(j) > (lambda(i)/(lambda(i)-1)) - 1)
+    for i=1:length(mu)
+        for j=1:length(lambda)
+            if (mu(i) < (lambda(j)/(lambda(j)-1)) + 1) && (mu(i) > (lambda(j)/(lambda(j)-1)) - 1)
                 z(i,j) = 4;
             else
                 z(i,j) = 2;
@@ -380,7 +376,6 @@ La fonction \emph{nbEqui} vérifie la condition $\displaystyle \mu \in \left] \f
 Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.\\
 
 Les trajectoires fermées représentent des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire 1) et les trajectoires ouvertes correspondent à des mouvements révolutifs (figure \ref{fig:pp_ep_mu2}, trajectoire 2). Une trajectoire séparatrice délimite les mouvements révolutifs des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire 3).\\
-% TODO (lire doc Thweatt1999.pdf) mu=2 -> mu = 2.5 (courbe en 8): changement de dynamique : bifurcation
 
 On fixe $\lambda = 2$ et on trace le portrait de phase pour différents $\mu$ : 0.5, 1.5, 2, 2.5 et 4. Les portraits de phases sont visibles en annexe (Annexe A).
 \begin{leftbar}
@@ -433,7 +428,6 @@ function z=integPrem(lambda, mu, x, y)
     z=0.5*y.^2 + H_IntegPrem(lambda, mu, x);
 end
 \end{lstlisting}
-% TODO explications (meshgrid + contour)
 \newpage
 
 \subsection{Vitesse initiale maximale pour une trajectoire périodique}
@@ -545,9 +539,6 @@ end
 	\label{figure:tmu}
 \end{figure}
 On souhaite calculer la période de la trajectoire ayant pour conditions initiales $\theta_0 = \frac{\pi}{2}$ et $\omega_0 = 0$, et pour paramètres $\lambda = 2$ et $\mu$ prenant successivement les valeurs suivantes: 0.5, 1.5, 2, 2.5 et 4. La période correspond à 2 fois la durée du parcours allant du point $(\theta_{min}, 0)$ à $(\theta_{max}, 0)$ étant donné la symétrie du problème.
-
-% C = 1/2 thetapoint^2 + H(theta)
-% thetapoint = +- sqrt(2(C-H(theta)))
 
 \begin{flalign*}
 	C &= \frac{1}{2} \dot{\theta}^2 + H(\theta)&\\
@@ -704,7 +695,7 @@ Soit $x^* = (x_1^*,x_2^*)$, 1 point d'équilibre du système, on souhaite calcul
 	\frac{\partial f_1}{\partial x_1} &= 0&\\
 	\frac{\partial f_1}{\partial x_2} &= 1&\\
 	\frac{\partial f_2}{\partial x_1} &= -\frac{\partial}{\partial x_1} \left( \sin{x_1}\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu\cos{x_1}}} \right) \right)&\\
-	&= -\cos{x_1}\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu\cos{x_1}}} \right) -2\mu\frac{\sin{x_1}^2}{(\mu^2 +1 -2\mu\cos{x_1})^{3/2}}&
+	&= -\cos{x_1}\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu\cos{x_1}}} \right) -2\mu\frac{\sin^2{x_1}}{(\mu^2 +1 -2\mu\cos{x_1})^{3/2}}&\\
 	\frac{\partial f_2}{\partial x_2} &= -\alpha&\\
 	A(x^*) &= \left[
 		\begin{matrix}
@@ -714,16 +705,28 @@ Soit $x^* = (x_1^*,x_2^*)$, 1 point d'équilibre du système, on souhaite calcul
  	\right]&
 \end{flalign*}
 
-\underline{On fixe le point d'équilibre à $x^* = (0,0)$}:\\
+On a :
 \begin{flalign*}
 	&\begin{cases}
-		tr(A) = -\alpha\\
-		det(A) = -\frac{\partial f_2}{\partial x_2} = 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu}}\\
-		\delta(A) = tr(A)^2 + 4*det(A) = \alpha^2 - 4\left( 1 - \frac{2}{\sqrt{\mu^2 +1 -2\mu}} \right)
+		Tr(A) = -\alpha\\
+		Det(A) = -\frac{\partial f_2}{\partial x_2}\\
+		\Delta(A) = tr(A)^2 + 4*det(A)
 	\end{cases}&
 \end{flalign*}
 
-\newpage
+On souhaite étudier le système au voisinage d'un point d'équilibre $x^*$ stable, On souhaite donc délimiter les zones de \textbf{noeud répulsif}, de \textbf{spiral attractif} et de \textbf{centre}.\\
+% TODO décrire ce que représentent ces trois zones
+
+En rassemblant les conditions de ces trois zones, on obtient les conditions suivantes :
+\begin{flalign*}
+	&\begin{cases}
+		Det(A) \geq 0\\
+		Tr(A) \leq 0
+	\end{cases}&
+\end{flalign*}
+Or, $Tr(A) = -\alpha$ et $\alpha \geq 0$, une des deux conditions est remplie. Il faut donc ensuite choisir $x^*$ tel que $-\frac{\partial f_2}{\partial x_2} \geq 0$ afin que $Det(A) \geq 0$. Le point d'équilibre ainsi choisi sera stable.
+
+
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.59]{Figures/rapport_bifur2.png}
@@ -731,33 +734,68 @@ Soit $x^* = (x_1^*,x_2^*)$, 1 point d'équilibre du système, on souhaite calcul
 \end{figure}
 
 % TODO interpréter diagramme de bifurcation
+\newpage
 
 \paragraph{Matlab}\mbox{}\\
 \begin{lstlisting}
-function plotBifurcation()
-    a=-5:0.05:5;
-    b=0:0.05:5;
-    [X,Y]=meshgrid(a,b);
-    X=X(:);
-    Y=Y(:);
-    
-    P=1-(2./sqrt(Y.^2 +1 -2*Y));
-    S=-X;
-    D=X.^2-4*P;    
-    
-    hold on
-    plot(X(D<0 & S>0),Y(D<0 & S>0),'.c')
-    plot(X(D<0 & S<0),Y(D<0 & S<0),'.m')
-    plot(X(D>0 & P>0 & S>0),Y(D>0 & P>0 & S>0),'.b')
-    plot(X(D>0 & P>0 & S<0),Y(D>0 & P>0 & S<0),'.g')
-    plot(X(D>0 & P<0 ),Y(D>0 & P<0 ),'.r')
-    hold off
-    
+% Diagramme de bifurcation
+function plotBifurcation(mu)
+    lambda = 2;
+    alphaFricArray = zeros(1, length(mu));
+
+    for i=1:length(mu)
+        mu(i)
+        ptEqui = [0 pi];
+
+        % points d'équilibres du système
+        if (mu(i) < (lambda/(lambda-1)) + 1) && (mu(i) > (lambda/(lambda-1)) - 1) % 4 points
+            ptEqui(end + 1) = equiArccos(lambda, mu(i));
+        end
+
+        % on choisit un point d'équilibre tel que le système soit stable (det(A) > 0
+        % sachant que tr(A) < 0)
+        for j=1:length(ptEqui)
+            detPtEqui = det(ptEqui(j), mu(i))
+            if detPtEqui >= 0
+                ptEquiChoisi = ptEqui(j);
+                break;
+            end
+        end
+
+        alphaFricArray(i) = alphaFriction(ptEquiChoisi, mu(i));
+    end
+
+    plot(alphaFricArray, mu);
     title('Diagramme de bifurcation')
     xlabel('alpha')
     ylabel('mu')
 end
+
+% Calcule le déterminant de la matrice jacobienne pour lambda=2 et en
+% fonction de lambda et x1 (theta).
+function y=det(x1, mu)
+    y = cos(x1)*(1 - (2/sqrt(mu^2 + 1 -2*mu*cos(x1)))) ...
+        + 2*mu*((sin(x1)^2)/((mu^2 + 1 -2*mu*cos(x1))^(3/2)));
+end
+
+% Calcule alpha en fonction de x1 et mu
+function y=alphaFriction(x1, mu)
+    y = 2*sqrt(det(x1,mu));
+end
 \end{lstlisting}
+
+La fonction \emph{plotBifurcation} effectue les étapes suivantes :
+\begin{enumerate}
+	\item fixe $\lambda$
+	\item pour chaque $\mu$ :
+	\begin{enumerate}
+		\item calcule det(A) pour chaque point d'équilibre du système
+		\item choisi le premier point d'équilibre pour lequel $det(A) \geq 0$ (stabilité)
+		\item calcule $\alpha$ en fonction de $\mu$ et du point d'équilibre choisi
+	\end{enumerate}
+	\item trace $\mu(\alpha)$ (diagramme de bifurcation)
+
+\end{enumerate}
 \newpage
 
 \appendix

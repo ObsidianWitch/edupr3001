@@ -4,47 +4,48 @@ function pr3001_B
     
     % Parameters
     lambda=2;
-    lambda_vector=[1 2 3 4 5];
+    lambda_vector=[2 3 4 5];
     mu=[0.5 1.5 2 2.5 4];
     x_min=[pi/2 pi/2 1.3181-(pi/2 - 1.3181)+0.02 -pi/2 -pi/2];
     x_max=[3*pi/2  (1.8235-pi/2)+1.8235 pi/2-0.02 pi/2 pi/2];
     x0=pi/2;
     w0=0;
     
-    % Nombre de points d'équilibre & représentation des points d'équilibre
-    displayNbEqui(lambda_vector, mu);
-    figure
-    plotEqui(lambda);
-    
-    % Portrait de phase & Ep(theta) & période
-    T=zeros(1,length(mu));
-    for i=1:length(mu)
-        figure
-        
-        % portrait de phase
-        subplot(2,1,1)
-        portraitPhase(lambda, mu(i));
-        w0max=vitesseInitMax(lambda, mu(i), x0);
-        line([x0 x0], [-5 5])
-        str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
-        text(x0, w0max, str, 'FontSize', 14)
-        
-        % Ep
-        subplot(2,1,2)
-        epPlot(lambda, mu(i));
-        
-        % période pour chaque mu
-        T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
-    end
-    
-    % affichage de la période en fonction de mu
-    T = real(T);
-    figure
-    periodePlot(T, mu);
-    
+%     % Nombre de points d'équilibre & représentation des points d'équilibre
+%     displayNbEqui(lambda_vector, mu);
+%     figure
+%     plotEqui(lambda);
+%     
+%     % Portrait de phase & Ep(theta) & période
+%     T=zeros(1,length(mu));
+%     for i=1:length(mu)
+%         figure
+%         
+%         % portrait de phase
+%         subplot(2,1,1)
+%         portraitPhase(lambda, mu(i));
+%         w0max=vitesseInitMax(lambda, mu(i), x0);
+%         line([x0 x0], [-5 5])
+%         str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
+%         text(x0, w0max, str, 'FontSize', 14)
+%         
+%         % Ep
+%         subplot(2,1,2)
+%         epPlot(lambda, mu(i));
+%         
+%         % période pour chaque mu
+%         T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
+%     end
+%     
+%     % affichage de la période en fonction de mu
+%     T = real(T);
+%     figure
+%     periodePlot(T, mu);
+%     
     % diagramme de bifurcation
+    mu2=[0 0.5 1.5 2 2.5 3 4];
     figure
-    plotBifurcation()
+    plotBifurcation(mu2);
     
 end
 
@@ -63,11 +64,11 @@ end
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
 % mu).
 function z=nbEqui(lambda, mu)
-    z = zeros(length(lambda), length(mu));
+    z = zeros(length(mu), length(lambda));
     
-    for i=lambda
-        for j=1:length(mu)
-            if (mu(j) < (lambda(i)/(lambda(i)-1)) + 1) && (mu(j) > (lambda(i)/(lambda(i)-1)) - 1)
+    for i=1:length(mu)
+        for j=1:length(lambda)
+            if (mu(i) < (lambda(j)/(lambda(j)-1)) + 1) && (mu(i) > (lambda(j)/(lambda(j)-1)) - 1)
                 z(i,j) = 4;
             else
                 z(i,j) = 2;
@@ -168,27 +169,48 @@ end
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-function plotBifurcation()
-    a=-5:0.05:5;
-    b=0:0.05:5;
-    [X,Y]=meshgrid(a,b);
-    X=X(:);
-    Y=Y(:);
+% Diagramme de bifurcation
+function plotBifurcation(mu)
+    lambda = 2;
+    alphaFricArray = zeros(1, length(mu));
     
-    P=1-(2./sqrt(Y.^2 +1 -2*Y));
-    S=-X;
-    D=X.^2-4*P;    
+    for i=1:length(mu)
+        mu(i)
+        ptEqui = [0 pi];
+
+        % points d'équilibres du système
+        if (mu(i) < (lambda/(lambda-1)) + 1) && (mu(i) > (lambda/(lambda-1)) - 1) % 4 points
+            ptEqui(end + 1) = equiArccos(lambda, mu(i));
+        end
+
+        % on choisit un point d'équilibre tel que le système soit stable (det(A) > 0 
+        % sachant que tr(A) < 0)
+        for j=1:length(ptEqui)
+            detPtEqui = det(ptEqui(j), mu(i))
+            if detPtEqui >= 0
+                ptEquiChoisi = ptEqui(j);
+                break;
+            end
+        end
+
+        alphaFricArray(i) = alphaFriction(ptEquiChoisi, mu(i));
+    end
     
-    hold on
-    plot(X(D<0 & S>0),Y(D<0 & S>0),'.c')
-    plot(X(D<0 & S<0),Y(D<0 & S<0),'.m')
-    plot(X(D>0 & P>0 & S>0),Y(D>0 & P>0 & S>0),'.b')
-    plot(X(D>0 & P>0 & S<0),Y(D>0 & P>0 & S<0),'.g')
-    plot(X(D>0 & P<0 ),Y(D>0 & P<0 ),'.r')
-    hold off
-    
+    plot(alphaFricArray, mu);
     title('Diagramme de bifurcation')
     xlabel('alpha')
     ylabel('mu')
+end
+
+% Calcule le déterminant de la matrice jacobienne pour lambda=2 et en
+% fonction de lambda et x1 (theta).
+function y=det(x1, mu)
+    y = cos(x1)*(1 - (2/sqrt(mu^2 + 1 -2*mu*cos(x1)))) ...
+        + 2*mu*((sin(x1)^2)/((mu^2 + 1 -2*mu*cos(x1))^(3/2)));
+end
+
+% Calcule alpha en fonction de x1 et mu
+function y=alphaFriction(x1, mu)
+    y = 2*sqrt(det(x1,mu));
 end
 %------------------------------------------------------------------------------
