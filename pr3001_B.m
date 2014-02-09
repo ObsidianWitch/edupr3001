@@ -47,6 +47,13 @@ function pr3001_B
     figure
     plotBifurcation(mu2);
     
+    % Représentation spiral attractif
+    figure('name', 'spiral attractif')
+    reptraj([0;2],30,0.2,2)
+    
+    % Représentation noeud attractif
+    figure('name', 'noeud attractif')
+    reptraj([0;2],30,1.5,2)
 end
 
 %------------------------------------------------------------------------------
@@ -211,5 +218,32 @@ end
 % Calcule alpha en fonction de x1 et mu
 function y=alphaFriction(x1, mu)
     y = 2*sqrt(det(x1,mu));
+end
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Representation d'une trajectoire
+% reptraj([x0;w0], temps final, amortissement, mu)
+% bleu -> x(t) ; vert -> v(t)
+function reptraj(x0,tf,a,mu)
+    [t,x]=ode45(@syst,[0 tf],x0,[],a,mu);
+
+    subplot(2,1,1)
+    plot(t,x)
+    title(['Parametres: \alpha=' num2str(a) '   mu=' num2str(mu) '  ;'...
+        '  Conditions initiales: \theta_0=' num2str(x0(1)) '  \omega_0=' num2str(x0(2)) ])
+    xlabel('t')
+    grid
+    axis([0 30 -10 10])
+    
+    subplot(2,1,2)
+    plot(x(:,1),x(:,2))
+    xlabel('theta(t)')
+    ylabel('w(t)')
+end
+
+% Système différentiel autonome de dimension 2
+function dxdt=syst(~,x,a,mu)
+    dxdt=[x(2);-a*x(2)-sin(x(1))*(1 - (2/sqrt(mu^2 + 1 -2*mu*cos(x(1)))))];
 end
 %------------------------------------------------------------------------------

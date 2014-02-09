@@ -82,7 +82,6 @@
 \small{Systèmes dynamiques}}
 \date{\today}
 % TODO lien vers archive contenant rapport + script
-% TODO numéro de groupe 26
 
 \begin{document}
 \maketitle
@@ -97,7 +96,7 @@
 	\includegraphics[scale=0.6]{Figures/sch1.png}
 \end{figure}
 
-% TODO expliquer démarche: nous avons utilisé la conservation de l'em pour trouver l'equation diff du système.
+Nous avons utilisé la conservation de l'énergie mécanique pour trouver l'equation différentielle du système.
 
 \subsection{Conservation de l'énergie mécanique}
 L'énergie mécanique est la somme de l'énergie cinétique et de l'énergie potentielle. Celle-ci reste constante au cours du temps en l'absence de frottements.
@@ -796,6 +795,75 @@ La fonction \emph{plotBifurcation} effectue les étapes suivantes :
 	\item trace $\mu(\alpha)$ (diagramme de bifurcation)
 
 \end{enumerate}
+\newpage
+
+\subsection{Stabilisation en un point}
+Nous avons établi précédemment le système différentiel autonome de dimension 2 suivant :
+\begin{flalign*}
+	&\begin{cases}
+		\dot{x_1}(t) = f_1(x_1(t), x_2(t))\\
+		\dot{x_2}(t) = f_2(x_1(t), x_2(t))
+	\end{cases}&
+\end{flalign*}
+
+A partir de ce système et à l'aide de Matlab nous pouvons tracer une trajectoire pour $\theta_0$ et $\mu$ fixés, ainsi qu'un intervalle de temps, un amortissement $\alpha$, et un $\omega_0$ donnés.\\
+% TODO à compléter
+
+Nous pouvons par exemple observer ci-dessous une réprésentation de spiral attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$. Dans ce cas, le système l'anneau se stabilise en $\theta \simeq 7.7 rad$.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.59]{Figures/rapport_traj_spiral.png}
+	\caption{spiral attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.59]{Figures/rapport_traj_noeud.png}
+	\caption{noeud attractif pour $\theta_0=0, \mu=2, \alpha=1.5,\omega_0=2$}
+\end{figure}
+% TODO interprétation
+\newpage
+
+\paragraph{Matlab}\mbox{}\\
+\begin{lstlisting}
+function pr3001_B
+	...
+    % Représentation spiral attractif
+    figure('name', 'spiral attractif')
+    reptraj([0;2],30,0.2,2)
+    
+    % Représentation noeud attractif
+    figure('name', 'noeud attractif')
+    reptraj([0;2],30,1.5,2)
+end
+
+% Representation d'une trajectoire
+% reptraj([x0;w0], temps final, amortissement, mu)
+% bleu -> x(t) ; vert -> v(t)
+function reptraj(x0,tf,a,mu)
+    [t,x]=ode45(@syst,[0 tf],x0,[],a,mu);
+
+    subplot(2,1,1)
+    plot(t,x)
+    title(['Parametres: \alpha=' num2str(a) '   mu=' num2str(mu) '  ;'...
+        '  Conditions initiales: \theta_0=' num2str(x0(1)) '  \omega_0=' num2str(x0(2)) ])
+    xlabel('t')
+    grid
+    axis([0 30 -10 10])
+    
+    subplot(2,1,2)
+    plot(x(:,1),x(:,2))
+    xlabel('theta(t)')
+    ylabel('w(t)')
+end
+
+% Système différentiel autonome de dimension 2
+function dxdt=syst(~,x,a,mu)
+	dxdt=[x(2);-a*x(2)-sin(x(1))*(1 - (2/sqrt(mu^2 + 1 -2*mu*cos(x(1)))))];
+end
+\end{lstlisting}
+
 \newpage
 
 \appendix
