@@ -175,7 +175,6 @@ function plotBifurcation(mu)
     alphaFricArray = zeros(1, length(mu));
     
     for i=1:length(mu)
-        mu(i)
         ptEqui = [0 pi];
 
         % points d'équilibres du système
@@ -186,7 +185,7 @@ function plotBifurcation(mu)
         % on choisit un point d'équilibre tel que le système soit stable (det(A) > 0 
         % sachant que tr(A) < 0)
         for j=1:length(ptEqui)
-            detPtEqui = det(ptEqui(j), mu(i))
+            detPtEqui = det(ptEqui(j), mu(i));
             if detPtEqui >= 0
                 ptEquiChoisi = ptEqui(j);
                 break;
