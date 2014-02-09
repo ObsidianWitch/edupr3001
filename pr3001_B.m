@@ -11,37 +11,37 @@ function pr3001_B
     x0=pi/2;
     w0=0;
     
-%     % Nombre de points d'équilibre & représentation des points d'équilibre
-%     displayNbEqui(lambda_vector, mu);
-%     figure
-%     plotEqui(lambda);
-%     
-%     % Portrait de phase & Ep(theta) & période
-%     T=zeros(1,length(mu));
-%     for i=1:length(mu)
-%         figure
-%         
-%         % portrait de phase
-%         subplot(2,1,1)
-%         portraitPhase(lambda, mu(i));
-%         w0max=vitesseInitMax(lambda, mu(i), x0);
-%         line([x0 x0], [-5 5])
-%         str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
-%         text(x0, w0max, str, 'FontSize', 14)
-%         
-%         % Ep
-%         subplot(2,1,2)
-%         epPlot(lambda, mu(i));
-%         
-%         % période pour chaque mu
-%         T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
-%     end
-%     
-%     % affichage de la période en fonction de mu
-%     T = real(T);
-%     figure
-%     periodePlot(T, mu);
-%     
+    % Nombre de points d'équilibre & représentation des points d'équilibre
+    displayNbEqui(lambda_vector, mu);
+    figure
+    plotEqui(lambda);
+    
+    % Portrait de phase & Ep(theta) & période
+    T=zeros(1,length(mu));
+    for i=1:length(mu)
+        figure
+        
+        % portrait de phase
+        subplot(2,1,1)
+        portraitPhase(lambda, mu(i));
+        w0max=vitesseInitMax(lambda, mu(i), x0);
+        line([x0 x0], [-5 5])
+        str=strcat('\leftarrow\omega_{0max} = ', num2str(w0max));
+        text(x0, w0max, str, 'FontSize', 14)
+        
+        % Ep
+        subplot(2,1,2)
+        epPlot(lambda, mu(i));
+        
+        % période pour chaque mu
+        T(i) = quad(@periode, x_min(i), x_max(i),[],[], lambda, mu(i));
+    end
+    
+    % affichage de la période en fonction de mu
+    T = real(T);
+    figure
+    periodePlot(T, mu);
+    
     % diagramme de bifurcation
     mu2=[0 0.5 1.5 2 2.5 3 4];
     figure
