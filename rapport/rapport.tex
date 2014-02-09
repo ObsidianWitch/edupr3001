@@ -96,7 +96,7 @@
 	\includegraphics[scale=0.6]{Figures/sch1.png}
 \end{figure}
 
-Nous avons utilisé la conservation de l'énergie mécanique pour trouver l'equation différentielle du système.
+Nous avons utilisé la conservation de l'énergie mécanique pour trouver l'équation différentielle du système.
 
 \subsection{Conservation de l'énergie mécanique}
 L'énergie mécanique est la somme de l'énergie cinétique et de l'énergie potentielle. Celle-ci reste constante au cours du temps en l'absence de frottements.
@@ -120,22 +120,24 @@ avec $Em$ l'énergie mécanique, $Ep$ l'énergie potentielle, $Epp$ l'énergie p
 	\includegraphics[scale=0.6]{Figures/sch2.png}
 \end{figure}
 
-\begin{align*}
-   \left.\begin{array}{r@{\mskip\thickmuskip}l}
-   \displaystyle
-   \cos(\theta) = \frac{h}{r}\\
-	h = r \cos(\theta)
-  \end{array}
-  \quad \right| \quad
-  \begin{array}{r@{\mskip\thickmuskip}l}
-    	Epp = mgh\\
-	    = mgrcos(\theta)
-  \end{array}
-\end{align*}
+% TODO corriger affichage (équations plus proche de la ligne centrale)
+\setlength{\abovedisplayskip}{0pt}
+\begin{multicols}{2}
+	\begin{align*}
+		&\cos(\theta) = \frac{h}{r}&\\
+		&h = r \cos(\theta)&
+	\end{align*}
+
+	\begin{align*}
+    	Epp &= mgh&\\
+	        &= mgrcos(\theta)&
+	\end{align*}
+\end{multicols}
+\setlength{\abovedisplayskip}{4pt}
 
 \paragraph{Énergie potentielle élastique du ressort}
 \begin{flalign*}
-	&Epr = \frac{1}{2}k(l -l_0)&
+	&Epe = \frac{1}{2}k(l -l_0)&
 \end{flalign*}
 avec $l_0$: longueur du ressort au repos, $l$: longueur du ressort et $k$: constante de raideur du ressort.\\
 
@@ -148,7 +150,7 @@ avec $l_0$: longueur du ressort au repos, $l$: longueur du ressort et $k$: const
 \underline{Théorème d'Al-Kashi}:
 \begin{leftbar}
 $\alpha$, $\beta$, $\gamma$ angles\\
-a, b, c côtés opposés\\
+a, b, c côtés opposés aux angles\\
 $c^2 = a^2 + b^2 - 2ab\cos\gamma$
 \end{leftbar}
 
@@ -156,7 +158,7 @@ Dans notre cas (voir figure ci-contre) :
 \begin{flalign*}
 l^2 &= a^2 + r^2 - 2ar\cos\theta&\\
 l &= \sqrt{a^2 + r^2 - 2ar\cos\theta}&\\
-Epr &= \frac{1}{2} k (\sqrt{a^2 + r^2 - 2ar\cos\theta} - l_0)^2&
+Epe &= \frac{1}{2} k (\sqrt{a^2 + r^2 - 2ar\cos\theta} - l_0)^2&
 \end{flalign*}
 \end{multicols}
 
@@ -251,33 +253,44 @@ $\begin{cases}
 \subsection{Points d'équilibre}
 % TODO insérer brève définition
 
-Soit $\displaystyle h(\theta) = \sin\theta\left(-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta}} \right)$, si $h(\theta^*) = 0$, le point $\theta^*$ est un point d'équilibre du système.
+Soit $\displaystyle h(\theta) = \sin\theta\left(-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta}} \right)$, si $h(\theta^*) = 0$, alors le point $\theta^*$ est un point d'équilibre du système. Un point d'équilibre vérifie donc une de ces deux équations:
 
 \begin{flalign*}
 	&\begin{cases}
 		\sin\theta^* = 0\\
-		-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} = 0
+		-1 +\lambda -\dfrac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} = 0
 	\end{cases}&
 \end{flalign*}
 
 \paragraph{Premier cas}
 \begin{flalign*}
 	\sin\theta^* &= 0&\\
-	\theta^* &= k\pi, \text{ avec } k\in\mathbb{N} &
+	\theta^* &= k\pi, \text{ avec } k\in\mathbb{Z} &
 \end{flalign*}
-Le système possède donc au moins deux points d'équilibre (qui se répètent), $\theta^* = 0$ et $\theta^* = \pi$.
+Le système possède donc au moins deux points d'équilibre (qui se répètent de manière périodique), $\theta^* = 0$ et $\theta^* = \pi$.
 
 \paragraph{Second cas}
-\begin{flalign*}
-	-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} &= 0&\\
-	\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} &= \lambda - 1&\\
-	\frac{1}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} &= \frac{\lambda - 1}{\lambda}&\\
-	\mu^2 +1 -2\mu \cos\theta^* &= \left(\frac{\lambda}{\lambda - 1}\right)^2&\\
-	\cos\theta^* &= -\left(\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1\right)\frac{1}{2\mu}&\\
-\end{flalign*}
-Si l'on peut résoudre l'équation si dessus, le système aura deux points d'équilibre supplémentaires ($\cos(\theta) = \cos(-\theta)$ ).\\
+\begin{multicols}{2}
+	\begin{flalign*}
+		-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} &= 0&\\
+		\frac{1}{\sqrt{\mu^2 +1 -2\mu \cos\theta^*}} &= \frac{\lambda - 1}{\lambda}&\\
+		\mu^2 +1 -2\mu \cos\theta^* &= \left(\frac{\lambda}{\lambda - 1}\right)^2&
+	\end{flalign*}
+	\begin{flalign*}
+		&\cos\theta^* = -\left(\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1\right)\frac{1}{2\mu}&\\
+	\end{flalign*}
+	\vfill
+	\columnbreak
 
-Recherche des cas limites pour $\cos\theta^* = -\left(\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1\right)\frac{1}{2\mu}$, afin de connaître le nombre de points d'équilibre pour $\lambda$ fixé en fonction de $\mu$.
+	\hfill\\\\
+	\begin{flalign*}
+	\mu^2 +1 -2\mu\cos{\theta^*} > 0 \Rightarrow& \frac{\lambda}{\lambda - 1} > 0&\\
+		                                        & \lambda > 1&
+	\end{flalign*}
+\end{multicols}
+Dans le cas où cette équation admet des solutions, le système aura deux points d'équilibre supplémentaires ($\cos(\theta) = \cos(-\theta)$ ).\\
+
+Recherche des condtitions d'existence des deux points d'équilibres supplémentaires pour\\ $\cos\theta^* = -\left(\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1\right)\frac{1}{2\mu}$.
 
 \begin{flalign*}
 	&\begin{cases}
@@ -289,10 +302,10 @@ Recherche des cas limites pour $\cos\theta^* = -\left(\left(\frac{\lambda}{\lamb
 \underline{Résolution de (1)}:
 \begin{flalign*}
 	-\left(\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1\right)\frac{1}{2\mu} &> -1&\\
-	\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1 &> 2\mu&\\
-	\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1 - 2\mu &> 0&\\
-	\left(\frac{\lambda}{\lambda - 1}\right)^2 - (\mu + 1)^2 &> 0&\\
-	\left(\frac{\lambda}{\lambda - 1} -\mu -1\right)\left(\frac{\lambda}{\lambda - 1} +\mu +1\right) &> 0&\\
+	\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1 &< 2\mu&\\
+	\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1 - 2\mu &< 0&\\
+	\left(\frac{\lambda}{\lambda - 1}\right)^2 - (\mu + 1)^2 &< 0&\\
+	\left(\frac{\lambda}{\lambda - 1} -\mu -1\right)\left(\frac{\lambda}{\lambda - 1} +\mu +1\right) &< 0&\\
 \end{flalign*}
 
 $\Rightarrow \mu > \frac{\lambda}{\lambda -1} - 1$ ou $\mu > -\frac{\lambda}{\lambda -1} - 1$\\
@@ -300,17 +313,18 @@ $\Rightarrow \mu > \frac{\lambda}{\lambda -1} - 1$ ou $\mu > -\frac{\lambda}{\la
 \underline{Résolution de (2)}:
 \begin{flalign*}
 	-\left(\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1\right)\frac{1}{2\mu} &< 1&\\
-	\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1 &< -2\mu&\\
+	\left(\frac{\lambda}{\lambda - 1}\right)^2 -\mu^2 -1 &> -2\mu&\\
 	%
-	\left(\frac{\lambda}{\lambda - 1}\right)^2 - (\mu - 1)^2 &< 0&\\
-	\left(\frac{\lambda}{\lambda - 1} -\mu +1\right)\left(\frac{\lambda}{\lambda - 1} +\mu -1\right) &< 0&\\
+	\left(\frac{\lambda}{\lambda - 1}\right)^2 - (\mu - 1)^2 &> 0&\\
+	\left(\frac{\lambda}{\lambda - 1} -\mu +1\right)\left(\frac{\lambda}{\lambda - 1} +\mu -1\right) &> 0&\\
 \end{flalign*}
 
 $\Rightarrow \mu < \frac{\lambda}{\lambda -1} + 1$ ou $\mu < -\frac{\lambda}{\lambda -1} + 1$\\
 
 \underline{(1) et (2)}:\\
 
-$\mu > 0$ et $\lambda > 0$, donc $\boxed{\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[}$.\\
+$\mu > 0$ et $\lambda > 1$, donc seules les solutions $\mu>\frac{\lambda}{\lambda - 1} - 1$ et $\mu<\frac{\lambda}{\lambda - 1} + 1$ sont possibles.\\
+$\rightarrow \boxed{\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[}$\\
 
 Application numérique pour $\lambda = 2$ : $\mu \in ]1;3[$.
 
@@ -318,7 +332,7 @@ Application numérique pour $\lambda = 2$ : $\mu \in ]1;3[$.
 Le système possède au moins deux points d'équilibre: $\theta^* = 0$ et $\theta^* = \pi$, et au plus 4 points d'équilibre si $\displaystyle \mu \in \left] \frac{\lambda}{\lambda - 1}-1 ; \frac{\lambda}{\lambda - 1}+1 \right[$. Ces points d'équilibre peuvent être stables ou instables, et il y a alternance entre stabilité et instabilité.
 
 \newpage
-\paragraph{Matlab} \mbox{}\\
+\paragraph{Construction du tableau dans Matlab} \mbox{}\\
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.65]{Figures/rapport_nbequi.png}
@@ -344,7 +358,7 @@ function displayNbEqui(lambda, mu)
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
-% Calcul le nombre de points d'équilibre pour chaque lambda et mu
+% Calcule le nombre de points d'équilibre pour chaque lambda et mu
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de
 % mu).
 function z=nbEqui(lambda, mu)
@@ -372,18 +386,22 @@ La fonction \emph{nbEqui} vérifie la condition $\displaystyle \mu \in \left] \f
 	\label{fig:pp_ep_mu2}
 \end{figure}
 
-Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associée une trajectoire différente.\\
+Le portrait de phase représente différentes trajectoires possibles pour le système dans le plan de phase $(\theta,\dot{\theta})$. A chaque couple de conditions initiales $(\theta_0, \omega_0)$ est associé une trajectoire différente.\\
 
-Les trajectoires fermées représentent des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire 1) et les trajectoires ouvertes correspondent à des mouvements révolutifs (figure \ref{fig:pp_ep_mu2}, trajectoire 2). Une trajectoire séparatrice délimite les mouvements révolutifs des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire 3).\\
+Les trajectoires fermées représentent des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire de type 1) et les trajectoires ouvertes correspondent à des mouvements révolutifs (figure \ref{fig:pp_ep_mu2}, trajectoire de type 2). Une trajectoire dite séparatrice délimite les mouvements révolutifs des mouvements oscillatoires (figure \ref{fig:pp_ep_mu2}, trajectoire de type 3).\\
 
 On fixe $\lambda = 2$ et on trace le portrait de phase pour différents $\mu$ : 0.5, 1.5, 2, 2.5 et 4. Les portraits de phases sont visibles en annexe (Annexe A).
 \begin{leftbar}
 \textbf{N.B.} Le cas $\mu=1$ n'est pas traité, $\mu = \frac{a}{r}$ donc $a = r$, et pour $\theta = 0$, le ressort devient ponctuel ce qui n'est physiquement pas possible.
 \end{leftbar}
 
-Le portrait de phase ci-dessus (figure \ref{fig:pp_ep_mu2}) correspond au cas $\lambda=2$ et $\mu=2$. On peut observer 4 points d'équilibre alternativement stables (minimum de l'EP, entourés par des trajectoires fermées) et instables (maximum local de l'EP, points de selle) aux positions suivantes : 0 (instable), $\cos^{-1}{(1/4)}$ (stable), pi (instable) et $-\cos^{-1}{(1/4)}$ (stable).
+Le portrait de phase ci-dessus (figure \ref{fig:pp_ep_mu2}) correspond au cas $\lambda=2$ et $\mu=2$. On peut observer 4 points d'équilibre alternativement stables (minima de l'EP, entourés par des trajectoires fermées) et instables (maxima locales de l'EP, points selle) aux positions suivantes : 0 (instable), $\cos^{-1}{(1/4)}$ (stable), pi (instable) et $-\cos^{-1}{(1/4)}$ (stable).\\
+
+Enfin, l'observation des portraits de phase confirme la théorie selon laquelle il n'y a que deux points d'équilibre dans certaines conditions (cf. portraits de phase pour $\mu = 0.5$ et $\mu = 4$, avec $\lambda=2$).
+
+\paragraph{Matlab} \mbox{}
 \begin{leftbar}
-\textbf{N.B.} Obtention des positions des points d'équilibre autres que $\theta^* = 0$ et $\theta^* = \pi$ à l'aide de Matlab:
+Obtention des positions des points d'équilibre autres que $\theta^* = 0$ et $\theta^* = \pi$ à l'aide de Matlab:
 \begin{flalign*}
 	&-1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 +1 -2\mu\cos{\theta}}} = 0&
 \end{flalign*}
@@ -395,9 +413,7 @@ ans =
  -acos(1/4)
 \end{lstlisting}
 \end{leftbar}
-% TODO compléter interprétation?
 
-\paragraph{Matlab} \mbox{}\\
 \begin{lstlisting}
 function pr3001_B
     % Parametres
@@ -430,9 +446,10 @@ end
 \newpage
 
 \subsection{Vitesse initiale maximale pour une trajectoire périodique}
-Nous souhaitons obtenir la vitesse initiale maximale pour une trajectoire périodique sachant que nous avons fixé la position $x_0$ à $\frac{\pi}{2}$. La séparatrice est la limite entre les trajectoires décrivant un mouvement oscillatoire et les trajectoires décrivant un mouvement révolutif. Celle-ci relie les points d'équilibre instable.
-Nous cherchons donc l'intersection entre la trajectoire séparatrice et $\frac{\pi}{2}$. La trajectoire séparatrice qui nous intéresse passe par un des 2 points d'équilibre suivants (voir les deux) : $0$ et $\pi$.
-%TODO à justifier
+Nous souhaitons obtenir la vitesse initiale maximale pour une trajectoire périodique sachant que la position $x_0$ a été fixée à $\frac{\pi}{2}$. La séparatrice, déjà décrite auparavant, est la limite entre les trajectoires décrivant un mouvement oscillatoire et les trajectoires décrivant un mouvement révolutif. Celle-ci relie les points d'équilibre instables, et représente à la fois un mouvement de révolution et un mouvement périodique.
+Nous cherchons donc l'intersection entre la trajectoire séparatrice et $\frac{\pi}{2}$. La trajectoire séparatrice qui nous intéresse passe par un des 2 points d'équilibre suivants (voir les deux) : $0$ et $\pi$.\\
+
+\underline{Relations utilisées :}
 \begin{flalign*}
 	C &= \frac{1}{2} \dot{\theta}^2 + H(\theta)&\\
 	\dot{\theta} &= \sqrt{2(C - H(\theta))}
@@ -452,7 +469,7 @@ L'énergie mécanique est égale à l'énergie potentielle, en effet la vitesse 
 \end{flalign*}
 
 \begin{leftbar}
-	\textbf{N.B.} $H(0) \neq H(\pi)$ sauf pour $\mu=2$ :
+	\textbf{N.B.} $H(0) \neq H(\pi)$ sauf pour $\mu=2$ (comme vu à la figure \ref{fig:pp_ep_mu2}) :
 	\begin{flalign*}
 		\frac{1}{\mu}\left( \sqrt(\mu^2 + 1 -2\mu) - 1 \right)^2 + 1 &= \frac{1}{\mu}\left( \sqrt(\mu^2 + 1 +2\mu) - 1 \right)^2 - 1&\\
 		\frac{\mu^2 -\mu -2\sqrt{\mu^2 + 1 -2\mu} +2}{\mu} &= \frac{\mu^2 + \mu -2\sqrt{\mu^2 + 1 + 2\mu} + 2}{\mu}&\\
@@ -462,7 +479,8 @@ L'énergie mécanique est égale à l'énergie potentielle, en effet la vitesse 
 	Pour $\mu=2$, la séparatrice passe par les deux points d'équilibre $\theta^*=0$ et $\theta^*=\pi$.
 \end{leftbar}
 
-On s'intéresse au final à la trajectoire qui passe par le point d'équilibre ($\theta^*=0$ ou $\theta^*=\pi$) dont l'énergie est la plus élevée.
+\paragraph{Matlab}\mbox{}\\
+On s'intéresse à la trajectoire qui passe par le point d'équilibre ($\theta^*=0$ ou $\theta^*=\pi$) dont l'énergie potentielle est la plus élevée. En effet la séparatrice passe par des points d'équilibres instables, c'est-à-dire les points dont l'énergie est la plus élevée.
 
 \begin{leftbar}
 \textbf{Exemple :} $\mu = 4$
@@ -484,7 +502,6 @@ On s'intéresse au final à la trajectoire qui passe par le point d'équilibre (
 	\caption{$\omega_{0max}$ sur le portrait de phase pour $\lambda = 2$ et $\mu = 4$}
 \end{figure}
 
-\paragraph{Matlab}\mbox{}\\
 Le programme suivant permet d'afficher la position du point $(\theta_0,\omega_{0max})$ sur le portrait de phase.
 Pour cela, à chaque $\mu$ la valeur de  $\omega_{0max}$ est calculée à l'aide de la fonction \emph{vitesseInitMax}, puis on positionne le point sur le portrait de phase à l'aide de la fonction \emph{text}.\\
 La fonction \emph{vitesseInitMax} calcule la vitesse angulaire (fonction \emph{vitesseAngulaire}) aux $\lambda$, $\mu$, $\theta_0$ donnés et à l'aide de C, sachant que C a pour valeur le maximum entre $H(0)$ et $H(\pi)$.
@@ -585,7 +602,9 @@ On observe sur le portrait de phase (voir Annexe A) que la vitesse de la traject
 	T &=\sqrt{2} \int_{\theta_{min}}^{\theta_{max}} \frac{\mathd \theta}{\sqrt{C - H(\theta)}} \approx 10.6855&
 \end{flalign*}
 \end{leftbar}
-% TODO interprétation
+
+A l'aide de la figure \ref{figure:tmu}, on observe que les phénomènes pour $\mu=0.5, 1.5, 2, 4$ sont similaires, leur période est environ égale à 10. De plus on observe sur les portraits de phase (Annexe A) que les trajectoires de phase sont semblables. Le cas $\mu = 2.5$ est à part, on peut observer un changement de dynamique au niveau du portrait de phase, ce qui se traduit par une période doublée, et donc une vitesse de parcours divisée par deux.
+\newpage
 
 \paragraph{Matlab}\mbox{}\\
 \begin{lstlisting}
@@ -629,7 +648,8 @@ On calcule ensuite T pour chaque $\mu$ en intégrant la fonction \emph{periode} 
 
 \section{Cas avec frottement}
 \subsection{Diagramme de bifurcation}
-% TODO blabla
+Comme indiqué dans le document \emph{Systèmes dynamiques et équations différentielles}, le diagramme de bifurcation est destiné à représenter la nature des points d'équilibre en fonction des paramètres du modèle. On souhaite dans notre cas représenter la nature des points d'équlibre en fonction de $\mu$, qui définit le point d'accroche du ressort, et de $\alpha$, le coefficient de frottement de l'anneau sur le cercle.
+
 \begin{flalign*}
 	&\ddot{\theta} + \alpha\dot{\theta} + h(2,\mu;\theta) = 0&\\
 	&\ddot{\theta} + \alpha\dot{\theta} + sin{\theta} \left( -1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 + 1 -2\mu\cos{\theta}}} \right) = 0&
@@ -668,11 +688,11 @@ Les points d'équilibres dans le cas avec frottement peuvent être étudiés à 
 
 On fixe $\ddot{\theta} = 0$ et $\dot{\theta} = 0$ dans l'équation différentielle, les valeurs des points d'équilibre sont obtenues en résolvant l'équation :
 \begin{flalign*}
-	&sin{\theta} \left( -1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 + 1 -2\mu\cos{\theta}}} \right) = 0&
+	&\sin{\theta} \left( -1 + \lambda - \frac{\lambda}{\sqrt{\mu^2 + 1 -2\mu\cos{\theta}}} \right) = 0&
 \end{flalign*}
 Cette équation est la même que celle obtenue dans le cas sans frottement, les points d'équilibres sont donc indépendants du frottement.
 On retrouve donc les points d'équilibre précédents :\\
-$\theta^*=0$ et $\theta^* = \pi \quad$ ($\theta^* = k\pi, \quad k \in \mathbb{N}$)\\
+$\theta^*=0$ et $\theta^* = \pi \quad$ ($\theta^* = k\pi, \quad k \in \mathbb{Z}$)\\
 \begin{flalign*}
 \theta^* &= \pm \cos^{-1}{\left( \frac{\left(\frac{\lambda}{\lambda-1}\right)^2 -\mu^2 -1}{-2\mu} \right)}&\\
          &= \pm \cos^{-1}{\left( \frac{\mu^2 - 3}{2\mu} \right)}, \quad \lambda=2&
@@ -709,11 +729,11 @@ On a :
 	&\begin{cases}
 		Tr(A) = -\alpha\\
 		Det(A) = -\frac{\partial f_2}{\partial x_2}\\
-		\Delta(A) = tr(A)^2 + 4*det(A)
+		\Delta(A) = tr(A)^2 - 4*det(A)
 	\end{cases}&
 \end{flalign*}
 
-On souhaite étudier le système au voisinage d'un point d'équilibre $x^*$ stable, On souhaite donc délimiter les zones de \textbf{noeud répulsif}, de \textbf{spiral attractif} et de \textbf{centre}.\\
+On souhaite représenter le système au voisinage d'un point d'équilibre $x^*$ stable, et donc délimiter les zones de \textbf{noeud attractif}, de \textbf{spirale attractif} et de \textbf{centre}.\\
 % TODO décrire ce que représentent ces trois zones
 
 En rassemblant les conditions de ces trois zones, on obtient les conditions suivantes :
@@ -723,14 +743,25 @@ En rassemblant les conditions de ces trois zones, on obtient les conditions suiv
 		Tr(A) \leq 0
 	\end{cases}&
 \end{flalign*}
-Or, $Tr(A) = -\alpha$ et $\alpha \geq 0$, une des deux conditions est remplie. Il faut donc ensuite choisir $x^*$ tel que $-\frac{\partial f_2}{\partial x_2} \geq 0$ afin que $Det(A) \geq 0$. Le point d'équilibre ainsi choisi sera stable.
-
+Or, $Tr(A) = -\alpha$ et $\alpha \geq 0$, une des deux conditions est toujours remplie. Il faut donc ensuite choisir $x^*$ tel que $-\frac{\partial f_2}{\partial x_2} \geq 0$ afin que $Det(A) \geq 0$. Le point d'équilibre ainsi choisi sera stable.
+\newpage
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.59]{Figures/rapport_bifur2.png}
 	\caption{Diagramme de bifurcation}
 \end{figure}
+
+Le diagramme ci-dessus montre :
+\begin{itemize}
+	\item Pour $\alpha = 0$, il n'y a pas de frottements, on se ramène au cas de la partie B. Les points d'équilibre stables sont de type centré.
+	\item Pour un $\mu$ donné et $\alpha$ dans la zone à gauche du trait bleu, les points d'équilibre sont de type spirale attractif. Le système s'amortit avec des oscillations.
+	\item Pour un $\mu$ donné et $\alpha$ dans la zone à droite du trait bleu, les points d'équilibre sont de type noeuf attractif. Le mouvement du système est très amorti, sans oscillations.
+\end{itemize}
+
+\begin{leftbar}
+	\textbf{N.B.} Les points d'équilibre instables sont relevés pour un $Det(A) < 0$ et ont pour nature le point selle. Les points instables ne sont pas représentés sur le diagramme ci-dessus.
+\end{leftbar}
 
 % TODO interpréter diagramme de bifurcation
 \newpage
@@ -746,7 +777,7 @@ function plotBifurcation(mu)
         mu(i)
         ptEqui = [0 pi];
 
-        % points d'équilibres du système
+        % points d'équilibre du système
         if (mu(i) < (lambda/(lambda-1)) + 1) && (mu(i) > (lambda/(lambda-1)) - 1) % 4 points
             ptEqui(end + 1) = equiArccos(lambda, mu(i));
         end
@@ -809,12 +840,12 @@ Nous avons établi précédemment le système différentiel autonome de dimensio
 A partir de ce système et à l'aide de Matlab nous pouvons tracer une trajectoire pour $\theta_0$ et $\mu$ fixés, ainsi qu'un intervalle de temps, un amortissement $\alpha$, et un $\omega_0$ donnés.\\
 % TODO à compléter
 
-Nous pouvons par exemple observer ci-dessous une réprésentation de spiral attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$. Dans ce cas, le système l'anneau se stabilise en $\theta \simeq 7.7 rad$.
+Nous pouvons par exemple observer ci-dessous une réprésentation de spirale attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$. Dans ce cas, le système se stabilise en $\theta \simeq 7.7 rad$.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.59]{Figures/rapport_traj_spiral.png}
-	\caption{spiral attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$}
+	\caption{spirale attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$}
 \end{figure}
 
 \begin{figure}[h!]
@@ -829,10 +860,10 @@ Nous pouvons par exemple observer ci-dessous une réprésentation de spiral attr
 \begin{lstlisting}
 function pr3001_B
 	...
-    % Représentation spiral attractif
-    figure('name', 'spiral attractif')
+    % Représentation spirale attractif
+    figure('name', 'spirale attractif')
     reptraj([0;2],30,0.2,2)
-    
+
     % Représentation noeud attractif
     figure('name', 'noeud attractif')
     reptraj([0;2],30,1.5,2)
@@ -851,7 +882,7 @@ function reptraj(x0,tf,a,mu)
     xlabel('t')
     grid
     axis([0 30 -10 10])
-    
+
     subplot(2,1,2)
     plot(x(:,1),x(:,2))
     xlabel('theta(t)')

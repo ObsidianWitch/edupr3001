@@ -2,7 +2,7 @@ function pr3001_B
     close all
     set(0,'DefaultFigureWindowStyle','docked')
     
-    % Parameters
+    % Paramètres
     lambda=2;
     lambda_vector=[2 3 4 5];
     mu=[0.5 1.5 2 2.5 4];
@@ -47,8 +47,8 @@ function pr3001_B
     figure
     plotBifurcation(mu2);
     
-    % Représentation spiral attractif
-    figure('name', 'spiral attractif')
+    % Représentation spirale attractif
+    figure('name', 'spirale attractif')
     reptraj([0;2],30,0.2,2)
     
     % Représentation noeud attractif
@@ -67,7 +67,7 @@ function displayNbEqui(lambda, mu)
     set(t, 'Data', Z, 'ColumnName', lambda, 'RowName', mu)
 end
 
-% Calcul le nombre de points d'équilibre pour chaque lambda et mu
+% Calcule le nombre de points d'équilibre pour chaque lambda et mu
 % (vecteurs). Retourne une matrice (ligne: taille de lambda, colonne: taille de 
 % mu).
 function z=nbEqui(lambda, mu)
@@ -184,7 +184,7 @@ function plotBifurcation(mu)
     for i=1:length(mu)
         ptEqui = [0 pi];
 
-        % points d'équilibres du système
+        % points d'équilibre du système
         if (mu(i) < (lambda/(lambda-1)) + 1) && (mu(i) > (lambda/(lambda-1)) - 1) % 4 points
             ptEqui(end + 1) = equiArccos(lambda, mu(i));
         end
