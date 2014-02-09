@@ -81,7 +81,6 @@
 \title{PR-3001M\\
 \small{Systèmes dynamiques}}
 \date{\today}
-% TODO lien vers archive contenant rapport + script
 
 \begin{document}
 \maketitle
@@ -120,7 +119,6 @@ avec $Em$ l'énergie mécanique, $Ep$ l'énergie potentielle, $Epp$ l'énergie p
 	\includegraphics[scale=0.6]{Figures/sch2.png}
 \end{figure}
 
-% TODO corriger affichage (équations plus proche de la ligne centrale)
 \setlength{\abovedisplayskip}{0pt}
 \begin{multicols}{2}
 	\begin{align*}
@@ -133,7 +131,8 @@ avec $Em$ l'énergie mécanique, $Ep$ l'énergie potentielle, $Epp$ l'énergie p
 	        &= mgrcos(\theta)&
 	\end{align*}
 \end{multicols}
-\setlength{\abovedisplayskip}{4pt}
+\setlength{\abovedisplayskip}{8pt}
+
 
 \paragraph{Énergie potentielle élastique du ressort}
 \begin{flalign*}
@@ -251,8 +250,6 @@ $\begin{cases}
 \newpage
 \section{Cas sans frottement}
 \subsection{Points d'équilibre}
-% TODO insérer brève définition
-
 Soit $\displaystyle h(\theta) = \sin\theta\left(-1 +\lambda -\frac{\lambda}{\sqrt{\mu^2 +1 -2\mu \cos\theta}} \right)$, si $h(\theta^*) = 0$, alors le point $\theta^*$ est un point d'équilibre du système. Un point d'équilibre vérifie donc une de ces deux équations:
 
 \begin{flalign*}
@@ -734,7 +731,6 @@ On a :
 \end{flalign*}
 
 On souhaite représenter le système au voisinage d'un point d'équilibre $x^*$ stable, et donc délimiter les zones de \textbf{noeud attractif}, de \textbf{spirale attractif} et de \textbf{centre}.\\
-% TODO décrire ce que représentent ces trois zones
 
 En rassemblant les conditions de ces trois zones, on obtient les conditions suivantes :
 \begin{flalign*}
@@ -762,8 +758,6 @@ Le diagramme ci-dessus montre :
 \begin{leftbar}
 	\textbf{N.B.} Les points d'équilibre instables sont relevés pour un $Det(A) < 0$ et ont pour nature le point selle. Les points instables ne sont pas représentés sur le diagramme ci-dessus.
 \end{leftbar}
-
-% TODO interpréter diagramme de bifurcation
 \newpage
 
 \paragraph{Matlab}\mbox{}\\
@@ -837,8 +831,7 @@ Nous avons établi précédemment le système différentiel autonome de dimensio
 	\end{cases}&
 \end{flalign*}
 
-A partir de ce système et à l'aide de Matlab nous pouvons tracer une trajectoire pour $\theta_0$ et $\mu$ fixés, ainsi qu'un intervalle de temps, un amortissement $\alpha$, et un $\omega_0$ donnés.\\
-% TODO à compléter
+A partir de ce système et à l'aide de Matlab nous pouvons simuler divers cas et racer la trajectoire correspondante pour $\theta_0$ et $\mu$ fixés, ainsi qu'un intervalle de temps, un amortissement $\alpha$, et un $\omega_0$ donnés.\\
 
 Nous pouvons par exemple observer ci-dessous une réprésentation de spirale attractif pour $\theta_0=0, \mu=2, \alpha=0.2,\omega_0=2$. Dans ce cas, le système se stabilise en $\theta \simeq 7.7 rad$.
 
@@ -853,7 +846,16 @@ Nous pouvons par exemple observer ci-dessous une réprésentation de spirale att
 	\includegraphics[scale=0.59]{Figures/rapport_traj_noeud.png}
 	\caption{noeud attractif pour $\theta_0=0, \mu=2, \alpha=1.5,\omega_0=2$}
 \end{figure}
-% TODO interprétation
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.6]{Figures/rapport_stab.png}
+	\caption{trajectoires pour $\omega_0=0.5$ (bleu), $\omega_0=1$ (rouge), $\omega_0=2$ (vert) et pour $\alpha=$[0.5 0.6 2]}
+	\label{fig:stab}
+\end{figure}
+
+On peut observer sur la figure \ref{fig:stab} plusieurs trajectoires pour des $\omega_0$ et des $\alpha$ différents. Chaque couleur correspond à une valeur de $\omega_0$. On peut ainsi voir que pour un $\alpha \geq 0.6$, toutes les trajectoires convergent en $(\theta \simeq 1.31, \omega = 0)$ ce qui correspond à un point d'équilibre stable pour le système avec $\lambda=2, \mu=2$. Pour $\alpha < 0.6$, on commence à voir apparaître des trajectoires qui se stabilisent en un autre point. Notamment pour $\alpha=0.5$ et $\omega_0 = 2$, on voit que la trajectoire se stabilise en $4.96 rad$.
+
 \newpage
 
 \paragraph{Matlab}\mbox{}\\
@@ -867,6 +869,19 @@ function pr3001_B
     % Représentation noeud attractif
     figure('name', 'noeud attractif')
     reptraj([0;2],30,1.5,2)
+
+    % Trajectoires pour divers alpha et omega0
+    figure
+    colors=['b', 'r', 'g'];
+    w=[0.5 1 2];
+    a=[0.5 0.6 2];
+    hold on
+        for i=1:length(a)
+            for j=1:length(w)
+                reptraj([0;w(j)],30,a(i),2,0, colors(j))
+            end
+        end
+    hold off
 end
 
 % Representation d'une trajectoire

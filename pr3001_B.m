@@ -46,14 +46,27 @@ function pr3001_B
     mu2=[0 0.5 1.5 2 2.5 3 4];
     figure
     plotBifurcation(mu2);
-    
+   
     % Représentation spirale attractif
     figure('name', 'spirale attractif')
-    reptraj([0;2],30,0.2,2)
+    reptraj([0;2],30,0.2,2,1,'b')
     
     % Représentation noeud attractif
     figure('name', 'noeud attractif')
-    reptraj([0;2],30,1.5,2)
+    reptraj([0;2],30,1.5,2,1,'b')
+    
+    % Trajectoires pour divers alpha et omega0
+    figure
+    colors=['b', 'r', 'g'];
+    w=[0.5 1 2];
+    a=[0.5 0.6 2];
+    hold on
+        for i=1:length(a)
+            for j=1:length(w)
+                reptraj([0;w(j)],30,a(i),2,0, colors(j))
+            end
+        end
+    hold off
 end
 
 %------------------------------------------------------------------------------
@@ -225,19 +238,24 @@ end
 % Representation d'une trajectoire
 % reptraj([x0;w0], temps final, amortissement, mu)
 % bleu -> x(t) ; vert -> v(t)
-function reptraj(x0,tf,a,mu)
+% Le paramètre timeEnable permet d'activer ou non la représentation
+% temporelle
+function reptraj(x0,tf,a,mu, timeEnable, color)
     [t,x]=ode45(@syst,[0 tf],x0,[],a,mu);
-
-    subplot(2,1,1)
-    plot(t,x)
-    title(['Parametres: \alpha=' num2str(a) '   mu=' num2str(mu) '  ;'...
-        '  Conditions initiales: \theta_0=' num2str(x0(1)) '  \omega_0=' num2str(x0(2)) ])
-    xlabel('t')
-    grid
-    axis([0 30 -10 10])
     
-    subplot(2,1,2)
-    plot(x(:,1),x(:,2))
+    if timeEnable
+        subplot(2,1,1)
+        plot(t,x)
+        title(['Parametres: \alpha=' num2str(a) '   mu=' num2str(mu) '  ;'...
+            '  Conditions initiales: \theta_0=' num2str(x0(1)) '  \omega_0=' num2str(x0(2)) ])
+        xlabel('t')
+        grid
+        axis([0 30 -10 10])
+
+        subplot(2,1,2)
+    end
+    
+    plot(x(:,1),x(:,2),color)
     xlabel('theta(t)')
     ylabel('w(t)')
 end
